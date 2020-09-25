@@ -1,16 +1,16 @@
-# boxing_200925
+자동차 번호판 인식 버전2
 
-A new Flutter project.
+자동차 번호판 인식 되고 번호판 위치에 테두리 둘러줌
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+1. ImagePicker로 갤러리나 카메라에서 사진 가져옴
+2. json 형태로 바꿔 서버에 쏴줌
+3. 돌아온 정보값을 표시해줌
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+canvas, paint 사용이 어려움
+
+Stateful Widget은 매 frame마다 update되는듯
+
