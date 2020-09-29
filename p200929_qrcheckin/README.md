@@ -1,16 +1,5 @@
 # p200929_qrcheckin
 
-A new Flutter project.
+QR체크인 페이지 url로 가서 처음 사용할 때만 로그인, 그 후에는 로그인 안함
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+하단 쿠팡 광고 배너
