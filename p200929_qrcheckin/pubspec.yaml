@@ -31,7 +31,7 @@ dependencies:
   http:
   webview_flutter: ^0.3.24
   flutter_coupang_ad: ^0.1.0
-
+  admob_flutter: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

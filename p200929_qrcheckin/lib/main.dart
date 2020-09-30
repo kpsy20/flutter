@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_coupang_ad/flutter_coupang_ad.dart';
@@ -14,7 +15,16 @@ class WebViewExample extends StatefulWidget {
 class _WebViewExampleState extends State<WebViewExample> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
+  AdmobBannerSize bannerSize;
 
+  @override
+  void initState() {
+    Admob.requestTrackingAuthorization();
+    Admob.initialize(); 
+    bannerSize = AdmobBannerSize.BANNER;
+ 
+}
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

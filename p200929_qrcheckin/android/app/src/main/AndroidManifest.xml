@@ -37,6 +37,9 @@
               android:name="io.flutter.embedding.android.SplashScreenDrawable"
               android:resource="@drawable/launch_background"
               />
+            <meta-data
+              android:name="com.google.android.gms.ads.ca-app-pub-8642591281586798~9250892266"
+              android:value="ca-app-pub-8642591281586798~9250892266"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
