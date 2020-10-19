@@ -1,10 +1,7 @@
 import 'dart:async';
-import 'dart:io';
-
 import 'package:camera/camera.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart' show join;
-import 'package:path_provider/path_provider.dart';
 import 'mainpage.dart';
 
 // void main() => runApp(MyApp());
@@ -156,7 +153,7 @@ class _MKState extends State<MK> {
                           );
                         },
                       ),
-                    )
+                    ),
                   ], //Column children
                 ),
               ),
@@ -179,4 +176,67 @@ class Cam {
 
 class Frame {
   static int frame = 0;
+  static String in_or_out = '';
+}
+
+class In_Pic {
+  static void Set(name, img) {
+    if (name == 'pic1') {
+      pic1 = img;
+    } else if (name == 'pic2') {
+      pic2 = img;
+    } else if (name == 'pic3') {
+      pic3 = img;
+    } else if (name == 'pic4') {
+      pic4 = img;
+    }
+  }
+
+  static void Get(name) {
+    if (name == 'pic1') {
+      return pic1;
+    } else if (name == 'pic2') {
+      return pic2;
+    } else if (name == 'pic3') {
+      return pic3;
+    } else if (name == 'pic4') {
+      return pic4;
+    }
+  }
+
+  static var pic1;
+  static var pic2;
+  static var pic3;
+  static var pic4;
+}
+
+class Out_Pic {
+  static void Set(name, img) {
+    if (name == 'pic1') {
+      pic1 = img;
+    } else if (name == 'pic2') {
+      pic2 = img;
+    } else if (name == 'pic3') {
+      pic3 = img;
+    } else if (name == 'pic4') {
+      pic4 = img;
+    }
+  }
+
+  static void Get(name) {
+    if (name == 'pic1') {
+      return pic1;
+    } else if (name == 'pic2') {
+      return pic2;
+    } else if (name == 'pic3') {
+      return pic3;
+    } else if (name == 'pic4') {
+      return pic4;
+    }
+  }
+
+  static var pic1;
+  static var pic2;
+  static var pic3;
+  static var pic4;
 }

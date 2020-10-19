@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1080279446347",
+    "firebase_url": "https://beyondcar-16882.firebaseio.com",
+    "project_id": "beyondcar-16882",
+    "storage_bucket": "beyondcar-16882.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1080279446347:android:6bdc0ac032c4db85b6aece",
+        "android_client_info": {
+          "package_name": "com.example.p201007_mkver1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1080279446347-gol4di7rjj29df78s758ek5ph87s5brr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjOuOw02sRY3N77tPHHptFMjovfvVCyw8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1080279446347-gol4di7rjj29df78s758ek5ph87s5brr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

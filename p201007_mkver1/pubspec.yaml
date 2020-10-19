@@ -32,6 +32,13 @@ dependencies:
   path_provider:
   path:
   fluttertoast:
+  firebase_auth:
+  provider:
+  shared_preferences:
+  logger:
+  rflutter_alert:
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,19 +1,20 @@
-import 'package:camera/camera.dart';
-import 'dart:async';
 import 'dart:io';
-import 'mainpage.dart';
 import 'main.dart';
 import 'package:flutter/material.dart';
 import "camera.dart";
-import 'package:path/path.dart' show join;
-import 'package:path_provider/path_provider.dart';
+import 'package:flutter/services.dart';
+import 'task.dart';
 
 class In extends StatefulWidget {
+  static File p1;
   @override
   _InState createState() => _InState();
 }
 
 class _InState extends State<In> {
+  File p1 = In.p1;
+  File p2, p3, p4, p5;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +49,7 @@ class _InState extends State<In> {
                       ),
                       onPressed: () {
                         //GO CAMERA
-
+                        Frame.in_or_out = 'in';
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -89,12 +90,19 @@ class _InState extends State<In> {
                       Container(
                         width: 60,
                         height: 60,
+                        child: In_Pic.pic1 == null
+                            ? Text('')
+                            : Image.file(
+                                File(In_Pic.pic1),
+                                width: 60,
+                                height: 60,
+                              ),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black, width: 1),
                           borderRadius: BorderRadius.circular(5),
-                          image: DecorationImage(
-                            image: AssetImage('image/1.png'),
-                          ),
+                          // image: DecorationImage(
+                          //   image: AssetImage('image/1.png'),
+                          // ),
                         ),
                       ),
                       SizedBox(
@@ -103,12 +111,19 @@ class _InState extends State<In> {
                       Container(
                         width: 60,
                         height: 60,
+                        child: In_Pic.pic2 == null
+                            ? Text('')
+                            : Image.file(
+                                File(In_Pic.pic2),
+                                width: 60,
+                                height: 60,
+                              ),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black, width: 1),
                           borderRadius: BorderRadius.circular(5),
-                          image: DecorationImage(
-                            image: AssetImage('image/2.png'),
-                          ),
+                          // image: DecorationImage(
+                          //   image: AssetImage('image/2.png'),
+                          // ),
                         ),
                       ),
                       SizedBox(
@@ -117,12 +132,19 @@ class _InState extends State<In> {
                       Container(
                         width: 60,
                         height: 60,
+                        child: In_Pic.pic3 == null
+                            ? Text('')
+                            : Image.file(
+                                File(In_Pic.pic3),
+                                width: 60,
+                                height: 60,
+                              ),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black, width: 1),
                           borderRadius: BorderRadius.circular(5),
-                          image: DecorationImage(
-                            image: AssetImage('image/3.png'),
-                          ),
+                          // image: DecorationImage(
+                          //   image: AssetImage('image/3.png'),
+                          // ),
                         ),
                       ),
                       SizedBox(
@@ -131,12 +153,19 @@ class _InState extends State<In> {
                       Container(
                         width: 60,
                         height: 60,
+                        child: In_Pic.pic4 == null
+                            ? Text('')
+                            : Image.file(
+                                File(In_Pic.pic4),
+                                width: 60,
+                                height: 60,
+                              ),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black, width: 1),
                           borderRadius: BorderRadius.circular(5),
-                          image: DecorationImage(
-                            image: AssetImage('image/4.png'),
-                          ),
+                          // image: DecorationImage(
+                          //   image: AssetImage('image/4.png'),
+                          // ),
                         ),
                       ),
                     ],
@@ -170,7 +199,7 @@ class _InState extends State<In> {
                               padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
                             ),
                             Container(
-                              width: 100,
+                              width: 90,
                               height: 30,
                               child: Text(
                                 '차량번호',
@@ -202,7 +231,7 @@ class _InState extends State<In> {
                               padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
                             ),
                             Container(
-                              width: 100,
+                              width: 90,
                               height: 30,
                               child: Text(
                                 '차종',
@@ -234,7 +263,7 @@ class _InState extends State<In> {
                               padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
                             ),
                             Container(
-                              width: 100,
+                              width: 90,
                               height: 30,
                               child: Text(
                                 '고객명',
@@ -266,7 +295,7 @@ class _InState extends State<In> {
                               padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
                             ),
                             Container(
-                              width: 100,
+                              width: 90,
                               height: 30,
                               child: Text(
                                 '주행거리',
@@ -298,7 +327,7 @@ class _InState extends State<In> {
                               padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
                             ),
                             Container(
-                              width: 100,
+                              width: 90,
                               height: 30,
                               child: Text(
                                 '유류량',

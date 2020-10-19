@@ -1,9 +1,16 @@
+import 'dart:io';
+
 import 'camera.dart';
-import 'mainpage.dart';
 import 'main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class Out extends StatelessWidget {
+class Out extends StatefulWidget {
+  @override
+  _OutState createState() => _OutState();
+}
+
+class _OutState extends State<Out> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +45,7 @@ class Out extends StatelessWidget {
                       ),
                       onPressed: () {
                         //GO CAMERA
-
+                        Frame.in_or_out = 'out';
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -79,12 +86,19 @@ class Out extends StatelessWidget {
                       Container(
                         width: 60,
                         height: 60,
+                        child: Out_Pic.pic1 == null
+                            ? Text('')
+                            : Image.file(
+                                File(Out_Pic.pic1),
+                                width: 60,
+                                height: 60,
+                              ),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black, width: 1),
                           borderRadius: BorderRadius.circular(5),
-                          image: DecorationImage(
-                            image: AssetImage('image/1.png'),
-                          ),
+                          // image: DecorationImage(
+                          //   image: AssetImage('image/1.png'),
+                          // ),
                         ),
                       ),
                       SizedBox(
@@ -93,12 +107,19 @@ class Out extends StatelessWidget {
                       Container(
                         width: 60,
                         height: 60,
+                        child: Out_Pic.pic2 == null
+                            ? Text('')
+                            : Image.file(
+                                File(Out_Pic.pic2),
+                                width: 60,
+                                height: 60,
+                              ),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black, width: 1),
                           borderRadius: BorderRadius.circular(5),
-                          image: DecorationImage(
-                            image: AssetImage('image/2.png'),
-                          ),
+                          // image: DecorationImage(
+                          //   image: AssetImage('image/2.png'),
+                          // ),
                         ),
                       ),
                       SizedBox(
@@ -107,12 +128,19 @@ class Out extends StatelessWidget {
                       Container(
                         width: 60,
                         height: 60,
+                        child: Out_Pic.pic3 == null
+                            ? Text('')
+                            : Image.file(
+                                File(Out_Pic.pic3),
+                                width: 60,
+                                height: 60,
+                              ),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black, width: 1),
                           borderRadius: BorderRadius.circular(5),
-                          image: DecorationImage(
-                            image: AssetImage('image/3.png'),
-                          ),
+                          // image: DecorationImage(
+                          //   image: AssetImage('image/3.png'),
+                          // ),
                         ),
                       ),
                       SizedBox(
@@ -121,12 +149,19 @@ class Out extends StatelessWidget {
                       Container(
                         width: 60,
                         height: 60,
+                        child: Out_Pic.pic4 == null
+                            ? Text('')
+                            : Image.file(
+                                File(Out_Pic.pic4),
+                                width: 60,
+                                height: 60,
+                              ),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black, width: 1),
                           borderRadius: BorderRadius.circular(5),
-                          image: DecorationImage(
-                            image: AssetImage('image/4.png'),
-                          ),
+                          // image: DecorationImage(
+                          //   image: AssetImage('image/4.png'),
+                          // ),
                         ),
                       ),
                     ],
@@ -160,7 +195,7 @@ class Out extends StatelessWidget {
                               padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
                             ),
                             Container(
-                              width: 100,
+                              width: 90,
                               height: 30,
                               child: Text(
                                 '차량번호',
@@ -192,7 +227,7 @@ class Out extends StatelessWidget {
                               padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
                             ),
                             Container(
-                              width: 100,
+                              width: 90,
                               height: 30,
                               child: Text(
                                 '차종',
@@ -224,7 +259,7 @@ class Out extends StatelessWidget {
                               padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
                             ),
                             Container(
-                              width: 100,
+                              width: 90,
                               height: 30,
                               child: Text(
                                 '고객명',
@@ -256,7 +291,7 @@ class Out extends StatelessWidget {
                               padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
                             ),
                             Container(
-                              width: 100,
+                              width: 90,
                               height: 30,
                               child: Text(
                                 '주행거리',
@@ -288,7 +323,7 @@ class Out extends StatelessWidget {
                               padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
                             ),
                             Container(
-                              width: 100,
+                              width: 90,
                               height: 30,
                               child: Text(
                                 '유류량',

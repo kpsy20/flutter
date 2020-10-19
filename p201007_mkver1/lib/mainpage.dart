@@ -1,3 +1,5 @@
+import 'package:provider/provider.dart';
+
 import 'main.dart';
 import 'package:flutter/material.dart';
 import 'in.dart';
@@ -9,7 +11,18 @@ class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
 
+class DataMainPage {
+  static int numberOfTask = Data.carList.length;
+}
+
 class _MainPageState extends State<MainPage> {
+  void syncGo() {
+    setState(() {
+      // DataMainPage.numberOfTask = Data.carList.length;
+    });
+  }
+
+  @override
   var now = new DateTime.now();
   @override
   Widget build(BuildContext context) {
@@ -33,9 +46,6 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
             ]),
-            SizedBox(
-              height: 10,
-            ),
             Row(
               children: [
                 SizedBox(
@@ -44,6 +54,17 @@ class _MainPageState extends State<MainPage> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(MemberData.id),
+                ),
+                SizedBox(
+                  width: 300,
+                ),
+                FloatingActionButton(
+                  backgroundColor: Colors.teal,
+                  tooltip: 'Refresh',
+                  onPressed: syncGo,
+                  child: Icon(
+                    Icons.refresh,
+                  ),
                 ),
               ],
             ),
@@ -57,11 +78,13 @@ class _MainPageState extends State<MainPage> {
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(now.year.toString() +
-                      "." +
-                      now.month.toString() +
-                      "." +
-                      now.day.toString()),
+                  child: Text(
+                    now.year.toString() +
+                        "." +
+                        now.month.toString() +
+                        "." +
+                        now.day.toString(),
+                  ),
                 ),
               ],
             ),
@@ -154,7 +177,20 @@ class _MainPageState extends State<MainPage> {
                     ),
                     Text(
                       '업무리스트',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Text(
+                        DataMainPage.numberOfTask.toString(),
+                        style: TextStyle(fontSize: 20, color: Colors.teal),
+                      ),
                     )
                   ],
                 ),
