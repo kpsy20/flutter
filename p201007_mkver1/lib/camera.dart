@@ -5,11 +5,16 @@ import 'package:p201007_mkver1/in.dart';
 import 'in.dart';
 import 'main.dart';
 import 'package:camera/camera.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
 import 'out.dart';
+import 'package:image_size_getter/image_size_getter.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
 // Future<void> main2() async {
 //   // 디바이스에서 이용가능한 카메라 목록을 받아옵니다.
 //   WidgetsFlutterBinding.ensureInitialized();
@@ -46,6 +51,11 @@ class _Camera4State extends State<Camera4> {
   CameraController _controller;
   Future<void> _initializeControllerFuture;
   String order = '전면을 찍어주세요';
+  String url1 = "http://ai.nextlab.co.kr:9066/detect_car";
+  String url2 = "http://ai.nextlab.co.kr:9066/predict_carplate";
+  String url3 = "http://ai.nextlab.co.kr:9066/predict_defect";
+  Size size;
+  var result1, result2, result3, result4;
   @override
   void initState() {
     super.initState();
@@ -164,6 +174,7 @@ class _Camera4State extends State<Camera4> {
           child: Icon(Icons.camera_alt),
           // onPressed 콜백을 제공합니다.
           onPressed: () async {
+            //사진 찍혔을 때!!!!!!!!!! 여기서 api요청 보내야됨......
             try {
               // 카메라 초기화가 완료됐는지 확인합니다.
               if (Frame.frame == 0) {
@@ -180,7 +191,48 @@ class _Camera4State extends State<Camera4> {
 
               // 사진 촬영을 시도하고 저장되는 경로를 로그로 남깁니다.
               await _controller.takePicture(path);
+              final bytes = File(path).readAsBytesSync();
+              size = ImageSizeGetter.getSize(MemoryInput(bytes));
+              String img64 = base64Encode(bytes);
 
+              if (Frame.frame == 0) {
+                result1 = await detect_car(img64);
+                if (result1.containsKey("first")) //차 인식 됨
+                {
+                  inInfo.t1 = "ok";
+                } else {
+                  inInfo.t1 = "pic again";
+                }
+              }
+              if (Frame.frame == 1) {
+                result2 = await detect_car(img64);
+                if (result2.containsKey("first")) //차 인식 됨
+                {
+                  inInfo.t2 = "ok";
+                } else {
+                  inInfo.t2 = "pic again";
+                }
+              }
+              if (Frame.frame == 2) {
+                result3 = await detect_car(img64);
+                if (result3.containsKey("first")) //차 인식 됨
+                {
+                  inInfo.t3 = "ok";
+                } else {
+                  inInfo.t3 = "pic again";
+                }
+              }
+              if (Frame.frame == 3) {
+                result4 = await detect_car(img64);
+                if (result4.containsKey("first")) //차 인식 됨
+                {
+                  inInfo.t4 = "ok";
+                } else {
+                  inInfo.t4 = "pic again";
+                }
+              }
+
+              print("path " + path);
               Frame.frame = Frame.frame + 1;
               int num = Frame.frame;
               String file_name = 'pic' + '$num';
@@ -194,18 +246,8 @@ class _Camera4State extends State<Camera4> {
               //사진 셋팅
               //4번 찍으면 화면 돌아가게 함.
               if (Frame.frame != 4) {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => Camera4(),
-                //     // builder: (context) => DisplayPictureScreen(imagePath: path),
-                //   ),
-                // );
               } else {
                 Frame.frame = 0;
-                // Navigator.pop(context);
-                // Navigator.pop(context);
-                // Navigator.pop(context);
                 Navigator.pop(context);
 
                 //잘 안돼!
@@ -233,7 +275,6 @@ class _Camera4State extends State<Camera4> {
             setState(() {
               if (Frame.frame == 1) {
                 order = '오른쪽 측면을 찍어주세요';
-                print(_controller.value);
               }
               if (Frame.frame == 2) {
                 order = '후면을 찍어주세요';
@@ -248,17 +289,59 @@ class _Camera4State extends State<Camera4> {
     );
   }
 
-  // Future changeIn(fn, pa) async {
-  //   setState(() {
-  //     In_Pic.Set(fn, File(pa));
-  //   });
-  // }
+  Future<Map> detect_car(String img64) async {
+    return {"first": 1};
 
-  // Future changeOut(fn, pa) async {
-  //   setState(() {
-  //     Out_Pic.Set(fn, File(pa));
-  //   });
-  // }
+    Map<String, String> param_dict = {"base64_image": img64};
+    Map<String, String> headers = {"Content-type": "application/json"};
+    final msg = jsonEncode(param_dict);
+    print("BEFORE HTTP!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    http.Response response = await http.post(url1, headers: headers, body: msg);
+    print("number1CARLOCATE!!!!!!!!!!!!!!!!!!!!!!!!!");
+    final first = jsonDecode(response.body);
+    // print("RESPONESE" + response.body);
+    print(first);
+    if (first.containsKey("box")) {
+      final car_box = first['box'];
+      //carplate
+      bool front_or_back = false;
+      var second;
+      if (first['direction'] == 'front' || first['direction'] == 'back') {
+        http.Response response2 =
+            await http.post(url2, headers: headers, body: msg);
+        second = jsonDecode(response2.body);
+        //String carplate_text = second['text'];
+        //double carplate_prob = second['prob'];
+        print("number1CARPLATE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        print(second);
+        front_or_back = true;
+      }
+      String direction = "front";
+      double threshold = 0.7;
+      Map<String, dynamic> last_param_dict = {
+        "base64_image": img64,
+        "direction": direction,
+        "roi_box": car_box,
+        "threshold": threshold,
+      };
+      final last_msg = jsonEncode(last_param_dict);
+      http.Response response3 =
+          await http.post(url3, headers: headers, body: last_msg);
+      final third = jsonDecode(response3.body);
+      print("number1DEFECT!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      print(third);
+      Map<String, dynamic> result;
+      if (front_or_back) {
+        result = {"first": first, "second": second, "third": third};
+      } else {
+        result = {"first": first, "third": third};
+      }
+      return result;
+    } else {
+      // 차 인식 안됐음. 아예 안하기. 그리고 알려주기. 몇번째 사진이 인식이 안됐는지.
+      print("인식 안됐음!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    }
+  }
 }
 
 class CameraData {

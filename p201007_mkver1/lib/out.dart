@@ -72,7 +72,7 @@ class _OutState extends State<Out> {
                       border: Border.all(color: Colors.black, width: 1),
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
-                        image: AssetImage('image/car.jpg'),
+                        image: AssetImage('image/defect.jpg'),
                       ),
                     ),
                   ),

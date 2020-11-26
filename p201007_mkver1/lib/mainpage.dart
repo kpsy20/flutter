@@ -98,7 +98,7 @@ class _MainPageState extends State<MainPage> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.car_rental, color: Colors.white, size: 35),
+                    Icon(Icons.camera_rear, color: Colors.white, size: 35),
                     SizedBox(
                       width: 5,
                     ),
@@ -134,7 +134,7 @@ class _MainPageState extends State<MainPage> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.emoji_transportation_sharp,
+                    Icon(Icons.center_focus_weak,
                         color: Colors.white, size: 35),
                     SizedBox(
                       width: 5,
@@ -171,7 +171,7 @@ class _MainPageState extends State<MainPage> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.car_repair, color: Colors.white, size: 35),
+                    Icon(Icons.call_merge, color: Colors.white, size: 35),
                     SizedBox(
                       width: 5,
                     ),

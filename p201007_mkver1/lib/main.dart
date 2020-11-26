@@ -86,36 +86,37 @@ class _MKState extends State<MK> {
                           ),
                         ),
                         child: Container(
-                            padding: EdgeInsets.all(30.0),
-                            child: Column(
-                              children: [
-                                TextField(
-                                  autofocus: false,
-                                  controller: controller3,
-                                  decoration: InputDecoration(
-                                    labelText: "회사코드를 입력하세요",
-                                    labelStyle: TextStyle(fontSize: 15),
-                                  ),
+                          padding: EdgeInsets.all(30.0),
+                          child: Column(
+                            children: [
+                              TextField(
+                                autofocus: false,
+                                controller: controller3,
+                                decoration: InputDecoration(
+                                  labelText: "회사코드를 입력하세요",
+                                  labelStyle: TextStyle(fontSize: 15),
                                 ),
-                                TextField(
-                                  autofocus: false,
-                                  controller: controller,
-                                  decoration: InputDecoration(
-                                    labelText: "아이디를 입력하세요",
-                                    labelStyle: TextStyle(fontSize: 15),
-                                  ),
+                              ),
+                              TextField(
+                                autofocus: false,
+                                controller: controller,
+                                decoration: InputDecoration(
+                                  labelText: "아이디를 입력하세요",
+                                  labelStyle: TextStyle(fontSize: 15),
                                 ),
-                                TextField(
-                                  autofocus: false,
-                                  controller: controller2,
-                                  decoration: InputDecoration(
-                                    labelText: "비밀번호를 입력하세요",
-                                    labelStyle: TextStyle(fontSize: 15),
-                                  ),
-                                  obscureText: true,
+                              ),
+                              TextField(
+                                autofocus: false,
+                                controller: controller2,
+                                decoration: InputDecoration(
+                                  labelText: "비밀번호를 입력하세요",
+                                  labelStyle: TextStyle(fontSize: 15),
                                 ),
-                              ],
-                            )),
+                                obscureText: true,
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                     Row(
@@ -138,7 +139,8 @@ class _MKState extends State<MK> {
                       height: 50,
                       child: RaisedButton(
                         color: Colors.teal,
-                        child: Icon(Icons.login, color: Colors.white, size: 35),
+                        child: Icon(Icons.assignment,
+                            color: Colors.white, size: 35),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18),
                         ),

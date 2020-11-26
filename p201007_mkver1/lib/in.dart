@@ -11,10 +11,16 @@ class In extends StatefulWidget {
   _InState createState() => _InState();
 }
 
+class inInfo {
+  static String t1 = "not yet";
+  static String t2 = "not yet";
+  static String t3 = "not yet";
+  static String t4 = "not yet";
+}
+
 class _InState extends State<In> {
   File p1 = In.p1;
   File p2, p3, p4, p5;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,10 +79,11 @@ class _InState extends State<In> {
                     width: 300,
                     height: 300,
                     decoration: BoxDecoration(
+                      //여기에 이제 띄워야함. 파손된 부위들을.
                       border: Border.all(color: Colors.black, width: 1),
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
-                        image: AssetImage('image/car.jpg'),
+                        image: AssetImage('image/defect.jpg'),
                       ),
                     ),
                   ),
@@ -105,8 +112,8 @@ class _InState extends State<In> {
                           // ),
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
+                      Text(
+                        inInfo.t1,
                       ),
                       Container(
                         width: 60,
@@ -126,8 +133,8 @@ class _InState extends State<In> {
                           // ),
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
+                      Text(
+                        inInfo.t2,
                       ),
                       Container(
                         width: 60,
@@ -147,8 +154,8 @@ class _InState extends State<In> {
                           // ),
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
+                      Text(
+                        inInfo.t3,
                       ),
                       Container(
                         width: 60,
@@ -167,6 +174,9 @@ class _InState extends State<In> {
                           //   image: AssetImage('image/4.png'),
                           // ),
                         ),
+                      ),
+                      Text(
+                        inInfo.t4,
                       ),
                     ],
                   )
