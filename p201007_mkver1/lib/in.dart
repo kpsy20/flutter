@@ -1,9 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 import 'main.dart';
 import 'package:flutter/material.dart';
 import "camera.dart";
-import 'package:flutter/services.dart';
-import 'task.dart';
 
 class In extends StatefulWidget {
   static File p1;
@@ -16,11 +15,41 @@ class inInfo {
   static String t2 = "not yet";
   static String t3 = "not yet";
   static String t4 = "not yet";
+
+  static var r1;
+  static var r2;
+  static var r3;
+  static var r4;
+
+  static String car_number = '-';
+  static List<double> x = [];
+  static List<double> y = [];
 }
 
 class _InState extends State<In> {
+  // StreamController<Map<String, dynamic>> streamController =
+  //     StreamController(); // 데이터를 받아들이는 스트림.
   File p1 = In.p1;
   File p2, p3, p4, p5;
+
+  // Widget _buildListTile(AsyncSnapshot snapshot, int index) {
+  //   // 리스트 뷰에 들어갈 타일(작은 리스트뷰)를 만든다.
+  //   var id = "an";
+  //   var title = "beomjin";
+  //   // var id = snapshot.data[index].id;
+  //   // var title = snapshot.data[index].title;
+  //   bool completed = snapshot.data[index].completed;
+
+  //   return ListTile(
+  //     leading: Text("$id"),
+  //     title: Text("$title"),
+  //     subtitle: Text(
+  //       "completed ",
+  //       style: TextStyle(color: completed ? Colors.lightBlue : Colors.red),
+  //     ),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,17 +104,23 @@ class _InState extends State<In> {
                   SizedBox(
                     width: 10,
                   ),
-                  Container(
-                    width: 300,
-                    height: 300,
-                    decoration: BoxDecoration(
-                      //여기에 이제 띄워야함. 파손된 부위들을.
-                      border: Border.all(color: Colors.black, width: 1),
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        image: AssetImage('image/defect.jpg'),
+                  Stack(
+                    children: [
+                      Container(
+                        width: 300,
+                        height: 300,
+                        decoration: BoxDecoration(
+                          //여기에 이제 띄워야함. 파손된 부위들을.
+                          border: Border.all(color: Colors.black, width: 1),
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                            image: AssetImage('image/defect.jpg'),
+                          ),
+                        ),
                       ),
-                    ),
+                      Center(
+                          child: inInfo.x.length == 0 ? Text("") : ArcWidget()),
+                    ],
                   ),
                   SizedBox(
                     width: 20,
@@ -183,190 +218,85 @@ class _InState extends State<In> {
                 ],
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
-              Container(
-                width: 400,
-                height: 200,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black, width: 2),
-                  borderRadius: BorderRadius.circular(18),
+              // Container(
+              //   width: 400,
+              //   height: 200,
+              //   decoration: BoxDecoration(
+              //     border: Border.all(color: Colors.black, width: 2),
+              //     borderRadius: BorderRadius.circular(18),
+              //   ),
+              // ),
+              Text('대여정보'),
+              SizedBox(
+                height: 5,
+              ),
+              Table(
+                columnWidths: {
+                  0: FlexColumnWidth(1),
+                  1: FlexColumnWidth(3),
+                },
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                border: TableBorder(
+                  top: BorderSide(width: 1, color: Colors.black),
+                  bottom: BorderSide(width: 1, color: Colors.black),
+                  left: BorderSide(width: 1, color: Colors.black),
+                  right: BorderSide(width: 1, color: Colors.black),
+                  horizontalInside: BorderSide(width: 1, color: Colors.black),
                 ),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 5,
+                children: [
+                  TableRow(children: [
+                    Text(
+                      "차량번호",
+                      textAlign: TextAlign.center,
                     ),
-                    Text('대여정보'),
-                    SizedBox(
-                      height: 5,
+                    Text(
+                      inInfo.car_number,
+                      textAlign: TextAlign.center,
+                    )
+                  ]),
+                  TableRow(children: [
+                    Text(
+                      "차종",
+                      textAlign: TextAlign.center,
                     ),
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
-                            ),
-                            Container(
-                              width: 90,
-                              height: 30,
-                              child: Text(
-                                '차량번호',
-                                textAlign: TextAlign.center,
-                              ),
-                              decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.blue, width: 1.5),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 1,
-                            ),
-                            Container(
-                              width: 280,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.teal, width: 1.5),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
-                            ),
-                            Container(
-                              width: 90,
-                              height: 30,
-                              child: Text(
-                                '차종',
-                                textAlign: TextAlign.center,
-                              ),
-                              decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.blue, width: 1.5),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 1,
-                            ),
-                            Container(
-                              width: 280,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.teal, width: 1.5),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
-                            ),
-                            Container(
-                              width: 90,
-                              height: 30,
-                              child: Text(
-                                '고객명',
-                                textAlign: TextAlign.center,
-                              ),
-                              decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.blue, width: 1.5),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 1,
-                            ),
-                            Container(
-                              width: 280,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.teal, width: 1.5),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
-                            ),
-                            Container(
-                              width: 90,
-                              height: 30,
-                              child: Text(
-                                '주행거리',
-                                textAlign: TextAlign.center,
-                              ),
-                              decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.blue, width: 1.5),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 1,
-                            ),
-                            Container(
-                              width: 280,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.teal, width: 1.5),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(5, 3, 5, 3),
-                            ),
-                            Container(
-                              width: 90,
-                              height: 30,
-                              child: Text(
-                                '유류량',
-                                textAlign: TextAlign.center,
-                              ),
-                              decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.blue, width: 1.5),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 1,
-                            ),
-                            Container(
-                              width: 280,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.teal, width: 1.5),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                    Text(
+                      'asd',
+                      textAlign: TextAlign.center,
+                    )
+                  ]),
+                  TableRow(children: [
+                    Text(
+                      "고객명",
+                      textAlign: TextAlign.center,
                     ),
-                  ],
-                ),
+                    Text(
+                      'asd',
+                      textAlign: TextAlign.center,
+                    )
+                  ]),
+                  TableRow(children: [
+                    Text(
+                      "주행거리",
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      'asd',
+                      textAlign: TextAlign.center,
+                    )
+                  ]),
+                  TableRow(children: [
+                    Text(
+                      "유류량",
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      'asd',
+                      textAlign: TextAlign.center,
+                    )
+                  ]),
+                ],
               ),
               SizedBox(
                 height: 10,
@@ -428,9 +358,66 @@ class _InState extends State<In> {
               SizedBox(
                 height: 40,
               ),
+              inInfo.r1 == null
+                  ? Text('')
+                  : inInfo.r1['third'].length == 0
+                      ? Text('asd')
+                      : Text(inInfo.r1['first']['box'].toString()),
+              inInfo.r2 == null
+                  ? Text('')
+                  : inInfo.r2['third'].length == 0
+                      ? Text('asd')
+                      : Text(inInfo.r2['first']['box'].toString()),
+              inInfo.r3 == null
+                  ? Text('')
+                  : inInfo.r3['third'].length == 0
+                      ? Text('asd')
+                      : Text(inInfo.r3['first']['box'].toString()),
+              inInfo.r4 == null
+                  ? Text('')
+                  : inInfo.r4['third'].length == 0
+                      ? Text('asd')
+                      : Text(inInfo.r4['first']['box'].toString()),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _ArcPainter extends CustomPainter {
+  _ArcPainter();
+
+  @override
+  bool shouldRepaint(_ArcPainter oldDelegate) {
+    return true;
+  }
+
+  @override
+  void paint(Canvas canvas, size) {
+    var re = <Rect>[];
+    for (int i = 0; i < inInfo.x.length; i++) {
+      re.add(new Rect.fromLTWH(inInfo.x[i], inInfo.y[i], 3, 3));
+      canvas
+        ..drawRect(
+            re[i],
+            Paint()
+              ..color = Colors.redAccent
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 3);
+    }
+  }
+}
+
+class ArcWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new SizedBox(
+      width: 300.0,
+      height: 300.0,
+      child: new CustomPaint(
+        painter: new _ArcPainter(),
       ),
     );
   }

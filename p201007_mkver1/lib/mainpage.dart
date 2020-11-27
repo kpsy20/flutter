@@ -1,5 +1,5 @@
+import 'dart:async';
 import 'package:provider/provider.dart';
-
 import 'main.dart';
 import 'package:flutter/material.dart';
 import 'in.dart';
@@ -22,193 +22,260 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  int _counter = 0;
+  final StreamController<int> _streamController = StreamController();
+  final StreamController<int> _ctrl = StreamController();
+  final Stream<int> stream =
+      Stream.periodic(Duration(seconds: 1), (int x) => x); // 1초에 한
   @override
   var now = new DateTime.now();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            Row(children: [
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Column(
+            children: [
               SizedBox(
-                width: 10,
+                height: 10,
               ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Image(
-                  image: AssetImage('image/and.png'),
-                  width: 50,
-                  height: 50,
-                ),
-              ),
-            ]),
-            Row(
-              children: [
+              Row(children: [
                 SizedBox(
                   width: 10,
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(MemberData.id),
-                ),
-                SizedBox(
-                  width: 300,
-                ),
-                FloatingActionButton(
-                  backgroundColor: Colors.teal,
-                  tooltip: 'Refresh',
-                  onPressed: syncGo,
-                  child: Icon(
-                    Icons.refresh,
+                  child: Image(
+                    image: AssetImage('image/and.png'),
+                    width: 50,
+                    height: 50,
                   ),
                 ),
-              ],
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Row(
-              children: [
-                SizedBox(
-                  width: 10,
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    now.year.toString() +
-                        "." +
-                        now.month.toString() +
-                        "." +
-                        now.day.toString(),
+              ]),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 10,
                   ),
-                ),
-              ],
-            ),
-            Padding(padding: EdgeInsets.only(top: 25)),
-            ButtonTheme(
-              minWidth: 350,
-              height: 150,
-              child: RaisedButton(
-                color: Colors.teal,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.camera_rear, color: Colors.white, size: 35),
-                    SizedBox(
-                      width: 5,
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(MemberData.id),
+                  ),
+                  SizedBox(
+                    width: 300,
+                  ),
+                  FloatingActionButton(
+                    backgroundColor: Colors.teal,
+                    tooltip: 'Refresh',
+                    onPressed: syncGo,
+                    child: Icon(
+                      Icons.refresh,
                     ),
-                    Text(
-                      '입고등록',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    )
-                  ],
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                // padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => In(),
-                    ),
-                  );
-                },
+                  ),
+                ],
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            ButtonTheme(
-              minWidth: 350,
-              height: 150,
-              child: RaisedButton(
-                color: Colors.teal,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.center_focus_weak,
-                        color: Colors.white, size: 35),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      '출고등록',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    )
-                  ],
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                // padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => Out(),
-                    ),
-                  );
-                },
+              SizedBox(
+                height: 5,
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            ButtonTheme(
-              minWidth: 350,
-              height: 150,
-              child: RaisedButton(
-                color: Colors.teal,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.call_merge, color: Colors.white, size: 35),
-                    SizedBox(
-                      width: 5,
+              Row(
+                children: [
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      now.year.toString() +
+                          "." +
+                          now.month.toString() +
+                          "." +
+                          now.day.toString(),
                     ),
-                    Text(
-                      '업무리스트',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
+                  ),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(top: 25)),
+              ButtonTheme(
+                minWidth: 350,
+                height: 150,
+                child: RaisedButton(
+                  color: Colors.teal,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.camera_rear, color: Colors.white, size: 35),
+                      SizedBox(
+                        width: 5,
                       ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: Text(
-                        DataMainPage.numberOfTask.toString(),
-                        style: TextStyle(fontSize: 20, color: Colors.teal),
+                      Text(
+                        '입고등록',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      )
+                    ],
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  // padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => In(),
                       ),
-                    )
-                  ],
+                    );
+                  },
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                // padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => Task(),
-                    ),
-                  );
-                },
               ),
-            ),
-          ],
+              SizedBox(
+                height: 10,
+              ),
+              ButtonTheme(
+                minWidth: 350,
+                height: 150,
+                child: RaisedButton(
+                  color: Colors.teal,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.center_focus_weak,
+                          color: Colors.white, size: 35),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        '출고등록',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      )
+                    ],
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  // padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => Out(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ButtonTheme(
+                minWidth: 350,
+                height: 150,
+                child: RaisedButton(
+                  color: Colors.teal,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.call_merge, color: Colors.white, size: 35),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        '업무리스트',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Text(
+                          DataMainPage.numberOfTask.toString(),
+                          style: TextStyle(fontSize: 20, color: Colors.teal),
+                        ),
+                      )
+                    ],
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  // padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => Task(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ButtonTheme(
+                minWidth: 350,
+                height: 150,
+                child: RaisedButton(
+                  color: Colors.teal,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.call_merge, color: Colors.white, size: 35),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      // Text(
+                      //   '업무리스트',
+                      //   style: TextStyle(
+                      //     color: Colors.white,
+                      //     fontSize: 20,
+                      //   ),
+                      // ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      StreamBuilder<int>(
+                        stream: stream, //
+                        builder: (BuildContext context,
+                            AsyncSnapshot<int> snapshot) {
+                          return Text(
+                              '${snapshot.data} seconds passed'); // 1초에 한번씩 업데이트 된다.
+                        },
+                      ),
+                      StreamBuilder<int>(
+                        stream: _streamController.stream, // 어떤 스트림을 쓸지 정함
+                        initialData:
+                            _counter, // 초기값 정하기, 스트림에 값이 없을지도 모르니 초기값을 정함.
+                        builder: (BuildContext context,
+                            AsyncSnapshot<int> snapshot) {
+                          // UI 만드는 부분.
+                          return Text('You hit me ${snapshot.data} times');
+                        },
+                      ),
+                    ],
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  // padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => Task(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
