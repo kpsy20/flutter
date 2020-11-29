@@ -22,6 +22,10 @@ class inInfo {
   static var r4;
 
   static String car_number = '-';
+  static String car_kind = '-';
+  static String consumer_name = '-';
+  static String drived_distance = '-';
+  static String fuel = '-';
   static List<double> x = [];
   static List<double> y = [];
 }
@@ -217,17 +221,36 @@ class _InState extends State<In> {
                   )
                 ],
               ),
-              SizedBox(
-                height: 5,
-              ),
-              // Container(
-              //   width: 400,
-              //   height: 200,
-              //   decoration: BoxDecoration(
-              //     border: Border.all(color: Colors.black, width: 2),
-              //     borderRadius: BorderRadius.circular(18),
-              //   ),
               // ),
+              // inInfo.r1 == null
+              //     ? Text('')
+              //     : inInfo.r1['third'].length == 0
+              //         ? Text('Front: Clear')
+              //         : Text("Front: " +
+              //             inInfo.r1['third'].length.toString() +
+              //             " Defect(s)"),
+              // inInfo.r2 == null
+              //     ? Text('')
+              //     : inInfo.r2['third'].length == 0
+              //         ? Text('Right Side: Clear')
+              //         : Text("Right Side: " +
+              //             inInfo.r2['third'].length.toString() +
+              //             " Defect(s)"),
+              // inInfo.r3 == null
+              //     ? Text('')
+              //     : inInfo.r3['third'].length == 0
+              //         ? Text('Back: Clear')
+              //         : Text("Back: " +
+              //             inInfo.r3['third'].length.toString() +
+              //             " Defect(s)"),
+              // inInfo.r4 == null
+              //     ? Text('Left Side: Clear')
+              //     : inInfo.r4['third'].length == 0
+              //         ? Text('')
+              //         : Text("Left Side: " +
+              //             inInfo.r4['third'].length.toString() +
+              //             " Defect(s)"),
+              SizedBox(height: 20),
               Text('대여정보'),
               SizedBox(
                 height: 5,
@@ -262,7 +285,7 @@ class _InState extends State<In> {
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      'asd',
+                      inInfo.car_kind,
                       textAlign: TextAlign.center,
                     )
                   ]),
@@ -272,7 +295,7 @@ class _InState extends State<In> {
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      'asd',
+                      inInfo.consumer_name,
                       textAlign: TextAlign.center,
                     )
                   ]),
@@ -282,7 +305,7 @@ class _InState extends State<In> {
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      'asd',
+                      inInfo.drived_distance,
                       textAlign: TextAlign.center,
                     )
                   ]),
@@ -292,7 +315,7 @@ class _InState extends State<In> {
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      'asd',
+                      inInfo.fuel,
                       textAlign: TextAlign.center,
                     )
                   ]),
@@ -357,27 +380,7 @@ class _InState extends State<In> {
               ),
               SizedBox(
                 height: 40,
-              ),
-              inInfo.r1 == null
-                  ? Text('')
-                  : inInfo.r1['third'].length == 0
-                      ? Text('asd')
-                      : Text(inInfo.r1['first']['box'].toString()),
-              inInfo.r2 == null
-                  ? Text('')
-                  : inInfo.r2['third'].length == 0
-                      ? Text('asd')
-                      : Text(inInfo.r2['first']['box'].toString()),
-              inInfo.r3 == null
-                  ? Text('')
-                  : inInfo.r3['third'].length == 0
-                      ? Text('asd')
-                      : Text(inInfo.r3['first']['box'].toString()),
-              inInfo.r4 == null
-                  ? Text('')
-                  : inInfo.r4['third'].length == 0
-                      ? Text('asd')
-                      : Text(inInfo.r4['first']['box'].toString()),
+              )
             ],
           ),
         ),

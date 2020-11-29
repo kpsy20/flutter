@@ -27,6 +27,7 @@ class Camera4 extends StatefulWidget {
 }
 
 class _Camera4State extends State<Camera4> {
+  String errorMsg = '';
   String url1 = "http://ai.nextlab.co.kr:9066/detect_car";
   String url2 = "http://ai.nextlab.co.kr:9066/predict_carplate";
   String url3 = "http://ai.nextlab.co.kr:9066/predict_defect";
@@ -163,8 +164,8 @@ class _Camera4State extends State<Camera4> {
                   textAlign: TextAlign.center,
                 ),
                 Container(
-                  width: 350,
-                  height: 350,
+                  width: 400,
+                  height: 700,
                   // child: AspectRatio(
                   //   aspectRatio: 1,
                   //   child: Transform(
@@ -208,6 +209,8 @@ class _Camera4State extends State<Camera4> {
                     },
                   ),
                 ),
+                SizedBox(height: 20),
+                Text(errorMsg),
               ],
             ),
           ),
@@ -242,7 +245,6 @@ class _Camera4State extends State<Camera4> {
                 inInfo.y.removeRange(0, inInfo.y.length);
                 inInfo.r1 = await detect_car(img64);
                 // result1 = await detect_car(img64);
-                inInfo.t1 = 'ok';
                 if (inInfo.r1.containsKey('second')) {
                   if (inInfo.r1['second'].length != 0) {
                     if (inInfo.r1['second']['prob'] > prob) {
@@ -256,13 +258,15 @@ class _Camera4State extends State<Camera4> {
                     inInfo.x.add(
                         inInfo.r1['third'][i]['mapping_point'][0] * 15 / 32);
                     inInfo.y.add(
-                        inInfo.r1['third'][i]['mapping_point'][1] * 15 / 32);
+                        inInfo.r1['third'][i]['mapping_point'][1] * 15 / 32 +
+                            37.5);
                   }
                 }
+                inInfo.t1 = inInfo.r1['third'].length.toString() + " Defect(s)";
+                errorMsg = '';
               }
               if (Frame.frame == 1) {
                 inInfo.r2 = await detect_car(img64);
-                inInfo.t2 = 'ok';
                 if (inInfo.r2.containsKey('second')) {
                   if (inInfo.r2['second'].length != 0) {
                     if (inInfo.r2['second']['prob'] > prob) {
@@ -276,13 +280,15 @@ class _Camera4State extends State<Camera4> {
                     inInfo.x.add(
                         inInfo.r2['third'][i]['mapping_point'][0] * 15 / 32);
                     inInfo.y.add(
-                        inInfo.r2['third'][i]['mapping_point'][1] * 15 / 32);
+                        inInfo.r2['third'][i]['mapping_point'][1] * 15 / 32 +
+                            37.5);
                   }
                 }
+                inInfo.t2 = inInfo.r2['third'].length.toString() + " Defect(s)";
+                errorMsg = '';
               }
               if (Frame.frame == 2) {
                 inInfo.r3 = await detect_car(img64);
-                inInfo.t3 = 'ok';
                 if (inInfo.r3.containsKey('second')) {
                   if (inInfo.r3['second'].length != 0) {
                     if (inInfo.r3['second']['prob'] > prob) {
@@ -296,13 +302,15 @@ class _Camera4State extends State<Camera4> {
                     inInfo.x.add(
                         inInfo.r3['third'][i]['mapping_point'][0] * 15 / 32);
                     inInfo.y.add(
-                        inInfo.r3['third'][i]['mapping_point'][1] * 15 / 32);
+                        inInfo.r3['third'][i]['mapping_point'][1] * 15 / 32 +
+                            37.5);
                   }
                 }
+                inInfo.t3 = inInfo.r3['third'].length.toString() + " Defect(s)";
+                errorMsg = '';
               }
               if (Frame.frame == 3) {
                 inInfo.r4 = await detect_car(img64);
-                inInfo.t4 = 'ok';
                 if (inInfo.r4.containsKey('second')) {
                   if (inInfo.r4['second'].length != 0) {
                     if (inInfo.r4['second']['prob'] > prob) {
@@ -316,9 +324,14 @@ class _Camera4State extends State<Camera4> {
                     inInfo.x.add(
                         inInfo.r4['third'][i]['mapping_point'][0] * 15 / 32);
                     inInfo.y.add(
-                        inInfo.r4['third'][i]['mapping_point'][1] * 15 / 32);
+                        inInfo.r4['third'][i]['mapping_point'][1] * 15 / 32 +
+                            37.5);
                   }
                 }
+                inInfo.t4 = inInfo.r4['third'].length.toString() + " Defect(s)";
+                errorMsg = '';
+
+                inInfo.car_number = car_num; //제일 prob높은 car_num 넘겨줌
               }
 
               // print("path " + path);
@@ -359,6 +372,10 @@ class _Camera4State extends State<Camera4> {
               }
             } catch (e) {
               // 만약 에러가 발생하면, 콘솔에 에러 로그를 남깁니다.
+              List<String> errorList = ['전면', '오른쪽 측면', '후면', '왼쪽 측면'];
+
+              errorMsg = errorList[Frame.frame] + " 사진을 다시 찍어주세요";
+
               print("ERROR!!!!!!!!!!!!!!!!!!!!!!!ERROR");
               print(e);
             }
