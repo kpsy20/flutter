@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:p201007_mkver1/in.dart';
-import 'in.dart';
 import 'main.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -213,97 +212,101 @@ class _Camera4State extends State<Camera4> {
               String img64 = base64Encode(bytes);
 
               if (Frame.frame == 0) {
-                inInfo.x.removeRange(0, inInfo.x.length);
-                inInfo.y.removeRange(0, inInfo.y.length);
-                inInfo.r1 = await detect_car(img64);
+                outInfo.x.removeRange(0, outInfo.x.length);
+                outInfo.y.removeRange(0, outInfo.y.length);
+                outInfo.r1 = await detect_car(img64);
                 // result1 = await detect_car(img64);
-                if (inInfo.r1.containsKey('second')) {
-                  if (inInfo.r1['second'].length != 0) {
-                    if (inInfo.r1['second']['prob'] > prob) {
-                      car_num = inInfo.r1['second']['text'];
+                if (outInfo.r1.containsKey('second')) {
+                  if (outInfo.r1['second'].length != 0) {
+                    if (outInfo.r1['second']['prob'] > prob) {
+                      car_num = outInfo.r1['second']['text'];
                     }
                   }
                 }
-                if (inInfo.r1['third'].length != 0) //파손 있을 때.
+                if (outInfo.r1['third'].length != 0) //파손 있을 때.
                 {
-                  for (int i = 0; i < inInfo.r1['third'].length; i++) {
-                    inInfo.x.add(
-                        inInfo.r1['third'][i]['mapping_point'][0] * 15 / 32);
-                    inInfo.y.add(
-                        inInfo.r1['third'][i]['mapping_point'][1] * 15 / 32 +
+                  for (int i = 0; i < outInfo.r1['third'].length; i++) {
+                    outInfo.x.add(
+                        outInfo.r1['third'][i]['mapping_point'][0] * 15 / 32);
+                    outInfo.y.add(
+                        outInfo.r1['third'][i]['mapping_point'][1] * 15 / 32 +
                             37.5);
                   }
                 }
-                inInfo.t1 = inInfo.r1['third'].length.toString() + " Defect(s)";
+                outInfo.t1 =
+                    outInfo.r1['third'].length.toString() + " Defect(s)";
                 errorMsg = '';
               }
               if (Frame.frame == 1) {
-                inInfo.r2 = await detect_car(img64);
-                if (inInfo.r2.containsKey('second')) {
-                  if (inInfo.r2['second'].length != 0) {
-                    if (inInfo.r2['second']['prob'] > prob) {
-                      car_num = inInfo.r2['second']['text'];
+                outInfo.r2 = await detect_car(img64);
+                if (outInfo.r2.containsKey('second')) {
+                  if (outInfo.r2['second'].length != 0) {
+                    if (outInfo.r2['second']['prob'] > prob) {
+                      car_num = outInfo.r2['second']['text'];
                     }
                   }
                 }
-                if (inInfo.r2['third'].length != 0) //파손 있을 때.
+                if (outInfo.r2['third'].length != 0) //파손 있을 때.
                 {
-                  for (int i = 0; i < inInfo.r2['third'].length; i++) {
-                    inInfo.x.add(
-                        inInfo.r2['third'][i]['mapping_point'][0] * 15 / 32);
-                    inInfo.y.add(
-                        inInfo.r2['third'][i]['mapping_point'][1] * 15 / 32 +
+                  for (int i = 0; i < outInfo.r2['third'].length; i++) {
+                    outInfo.x.add(
+                        outInfo.r2['third'][i]['mapping_point'][0] * 15 / 32);
+                    outInfo.y.add(
+                        outInfo.r2['third'][i]['mapping_point'][1] * 15 / 32 +
                             37.5);
                   }
                 }
-                inInfo.t2 = inInfo.r2['third'].length.toString() + " Defect(s)";
+                outInfo.t2 =
+                    outInfo.r2['third'].length.toString() + " Defect(s)";
                 errorMsg = '';
               }
               if (Frame.frame == 2) {
-                inInfo.r3 = await detect_car(img64);
-                if (inInfo.r3.containsKey('second')) {
-                  if (inInfo.r3['second'].length != 0) {
-                    if (inInfo.r3['second']['prob'] > prob) {
-                      car_num = inInfo.r3['second']['text'];
+                outInfo.r3 = await detect_car(img64);
+                if (outInfo.r3.containsKey('second')) {
+                  if (outInfo.r3['second'].length != 0) {
+                    if (outInfo.r3['second']['prob'] > prob) {
+                      car_num = outInfo.r3['second']['text'];
                     }
                   }
                 }
-                if (inInfo.r3['third'].length != 0) //파손 있을 때.
+                if (outInfo.r3['third'].length != 0) //파손 있을 때.
                 {
-                  for (int i = 0; i < inInfo.r3['third'].length; i++) {
-                    inInfo.x.add(
-                        inInfo.r3['third'][i]['mapping_point'][0] * 15 / 32);
-                    inInfo.y.add(
-                        inInfo.r3['third'][i]['mapping_point'][1] * 15 / 32 +
+                  for (int i = 0; i < outInfo.r3['third'].length; i++) {
+                    outInfo.x.add(
+                        outInfo.r3['third'][i]['mapping_point'][0] * 15 / 32);
+                    outInfo.y.add(
+                        outInfo.r3['third'][i]['mapping_point'][1] * 15 / 32 +
                             37.5);
                   }
                 }
-                inInfo.t3 = inInfo.r3['third'].length.toString() + " Defect(s)";
+                outInfo.t3 =
+                    outInfo.r3['third'].length.toString() + " Defect(s)";
                 errorMsg = '';
               }
               if (Frame.frame == 3) {
-                inInfo.r4 = await detect_car(img64);
-                if (inInfo.r4.containsKey('second')) {
-                  if (inInfo.r4['second'].length != 0) {
-                    if (inInfo.r4['second']['prob'] > prob) {
-                      car_num = inInfo.r4['second']['text'];
+                outInfo.r4 = await detect_car(img64);
+                if (outInfo.r4.containsKey('second')) {
+                  if (outInfo.r4['second'].length != 0) {
+                    if (outInfo.r4['second']['prob'] > prob) {
+                      car_num = outInfo.r4['second']['text'];
                     }
                   }
                 }
-                if (inInfo.r4['third'].length != 0) //파손 있을 때.
+                if (outInfo.r4['third'].length != 0) //파손 있을 때.
                 {
-                  for (int i = 0; i < inInfo.r4['third'].length; i++) {
-                    inInfo.x.add(
-                        inInfo.r4['third'][i]['mapping_point'][0] * 15 / 32);
-                    inInfo.y.add(
-                        inInfo.r4['third'][i]['mapping_point'][1] * 15 / 32 +
+                  for (int i = 0; i < outInfo.r4['third'].length; i++) {
+                    outInfo.x.add(
+                        outInfo.r4['third'][i]['mapping_point'][0] * 15 / 32);
+                    outInfo.y.add(
+                        outInfo.r4['third'][i]['mapping_point'][1] * 15 / 32 +
                             37.5);
                   }
                 }
-                inInfo.t4 = inInfo.r4['third'].length.toString() + " Defect(s)";
+                outInfo.t4 =
+                    outInfo.r4['third'].length.toString() + " Defect(s)";
                 errorMsg = '';
 
-                inInfo.car_number = car_num; //제일 prob높은 car_num 넘겨줌
+                outInfo.car_number = car_num; //제일 prob높은 car_num 넘겨줌
               }
 
               // print("path " + path);

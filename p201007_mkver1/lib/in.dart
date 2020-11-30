@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 import 'main.dart';
 import 'package:flutter/material.dart';
@@ -31,29 +30,8 @@ class inInfo {
 }
 
 class _InState extends State<In> {
-  // StreamController<Map<String, dynamic>> streamController =
-  //     StreamController(); // 데이터를 받아들이는 스트림.
   File p1 = In.p1;
   File p2, p3, p4, p5;
-
-  // Widget _buildListTile(AsyncSnapshot snapshot, int index) {
-  //   // 리스트 뷰에 들어갈 타일(작은 리스트뷰)를 만든다.
-  //   var id = "an";
-  //   var title = "beomjin";
-  //   // var id = snapshot.data[index].id;
-  //   // var title = snapshot.data[index].title;
-  //   bool completed = snapshot.data[index].completed;
-
-  //   return ListTile(
-  //     leading: Text("$id"),
-  //     title: Text("$title"),
-  //     subtitle: Text(
-  //       "completed ",
-  //       style: TextStyle(color: completed ? Colors.lightBlue : Colors.red),
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'mainpage.dart';
 import 'material_widget.dart';
 
@@ -10,13 +9,13 @@ class Task extends StatefulWidget {
 }
 
 class Data {
-  static int numberOfCar = 3;
   static List carList = [
     ['K5', '11허 1111', true, ""],
     ['AVANTE', '22허 2222', false, "요소수 주입\n엔진오일 교체"],
     ['K5', '33허 3333', false, "램프 교체"],
     ['AUDI', '43허 3123', true, ""],
   ];
+  static int numberOfCar = carList.length;
 }
 
 class _TaskState extends State<Task> {

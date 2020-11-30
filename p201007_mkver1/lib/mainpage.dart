@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:provider/provider.dart';
 import 'main.dart';
 import 'package:flutter/material.dart';
 import 'in.dart';
@@ -24,7 +23,7 @@ class _MainPageState extends State<MainPage> {
 
   int _counter = 0;
   final StreamController<int> _streamController = StreamController();
-  final StreamController<int> _ctrl = StreamController();
+  // final StreamController<int> _ctrl = StreamController();
   final Stream<int> stream =
       Stream.periodic(Duration(seconds: 1), (int x) => x); // 1초에 한
   @override
@@ -216,63 +215,6 @@ class _MainPageState extends State<MainPage> {
               ),
               SizedBox(
                 height: 10,
-              ),
-              ButtonTheme(
-                minWidth: 350,
-                height: 150,
-                child: RaisedButton(
-                  color: Colors.teal,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.call_merge, color: Colors.white, size: 35),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      // Text(
-                      //   '업무리스트',
-                      //   style: TextStyle(
-                      //     color: Colors.white,
-                      //     fontSize: 20,
-                      //   ),
-                      // ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      StreamBuilder<int>(
-                        stream: stream, //
-                        builder: (BuildContext context,
-                            AsyncSnapshot<int> snapshot) {
-                          return Text(
-                              '${snapshot.data} seconds passed'); // 1초에 한번씩 업데이트 된다.
-                        },
-                      ),
-                      StreamBuilder<int>(
-                        stream: _streamController.stream, // 어떤 스트림을 쓸지 정함
-                        initialData:
-                            _counter, // 초기값 정하기, 스트림에 값이 없을지도 모르니 초기값을 정함.
-                        builder: (BuildContext context,
-                            AsyncSnapshot<int> snapshot) {
-                          // UI 만드는 부분.
-                          return Text('You hit me ${snapshot.data} times');
-                        },
-                      ),
-                    ],
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                  // padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => Task(),
-                      ),
-                    );
-                  },
-                ),
               ),
             ],
           ),
