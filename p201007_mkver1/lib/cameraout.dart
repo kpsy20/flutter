@@ -13,7 +13,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 // 사용자가 주어진 카메라를 사용하여 사진을 찍을 수 있는 화면
-class Camera4 extends StatefulWidget {
+class Camera4O extends StatefulWidget {
   final CameraDescription camera = Cam.cam;
 
   // const Camera4({
@@ -22,10 +22,10 @@ class Camera4 extends StatefulWidget {
   // }) : super(key: key);
 
   @override
-  _Camera4State createState() => _Camera4State();
+  _Camera4OState createState() => _Camera4OState();
 }
 
-class _Camera4State extends State<Camera4> {
+class _Camera4OState extends State<Camera4O> {
   String errorMsg = '';
   String url1 = "http://ai.nextlab.co.kr:9066/detect_car";
   String url2 = "http://ai.nextlab.co.kr:9066/predict_carplate";
@@ -223,18 +223,24 @@ class _Camera4State extends State<Camera4> {
                     }
                   }
                 }
-                if (outInfo.r1['third'].length != 0) //파손 있을 때.
+                if (outInfo.r1['third']['display'].length != 0) //파손 있을 때.
                 {
-                  for (int i = 0; i < outInfo.r1['third'].length; i++) {
-                    outInfo.x.add(
-                        outInfo.r1['third'][i]['mapping_point'][0] * 15 / 32);
-                    outInfo.y.add(
-                        outInfo.r1['third'][i]['mapping_point'][1] * 15 / 32 +
-                            37.5);
+                  for (int i = 0;
+                      i < outInfo.r1['third']['display'].length;
+                      i++) {
+                    outInfo.x.add(outInfo.r1['third']['display'][i]['point']
+                            [0] *
+                        15 /
+                        32);
+                    outInfo.y.add(outInfo.r1['third']['display'][i]['point']
+                                [1] *
+                            15 /
+                            32 +
+                        37.5);
                   }
                 }
-                outInfo.t1 =
-                    outInfo.r1['third'].length.toString() + " Defect(s)";
+                outInfo.t1 = outInfo.r1['third']['display'].length.toString() +
+                    " Defect(s)";
                 errorMsg = '';
               }
               if (Frame.frame == 1) {
@@ -246,18 +252,24 @@ class _Camera4State extends State<Camera4> {
                     }
                   }
                 }
-                if (outInfo.r2['third'].length != 0) //파손 있을 때.
+                if (outInfo.r2['third']['display'].length != 0) //파손 있을 때.
                 {
-                  for (int i = 0; i < outInfo.r2['third'].length; i++) {
-                    outInfo.x.add(
-                        outInfo.r2['third'][i]['mapping_point'][0] * 15 / 32);
-                    outInfo.y.add(
-                        outInfo.r2['third'][i]['mapping_point'][1] * 15 / 32 +
-                            37.5);
+                  for (int i = 0;
+                      i < outInfo.r2['third']['display'].length;
+                      i++) {
+                    outInfo.x.add(outInfo.r2['third']['display'][i]['point']
+                            [0] *
+                        15 /
+                        32);
+                    outInfo.y.add(outInfo.r2['third']['display'][i]['point']
+                                [1] *
+                            15 /
+                            32 +
+                        37.5);
                   }
                 }
-                outInfo.t2 =
-                    outInfo.r2['third'].length.toString() + " Defect(s)";
+                outInfo.t2 = outInfo.r2['third']['display'].length.toString() +
+                    " Defect(s)";
                 errorMsg = '';
               }
               if (Frame.frame == 2) {
@@ -269,18 +281,24 @@ class _Camera4State extends State<Camera4> {
                     }
                   }
                 }
-                if (outInfo.r3['third'].length != 0) //파손 있을 때.
+                if (outInfo.r3['third']['display'].length != 0) //파손 있을 때.
                 {
-                  for (int i = 0; i < outInfo.r3['third'].length; i++) {
-                    outInfo.x.add(
-                        outInfo.r3['third'][i]['mapping_point'][0] * 15 / 32);
-                    outInfo.y.add(
-                        outInfo.r3['third'][i]['mapping_point'][1] * 15 / 32 +
-                            37.5);
+                  for (int i = 0;
+                      i < outInfo.r3['third']['display'].length;
+                      i++) {
+                    outInfo.x.add(outInfo.r3['third']['display'][i]['point']
+                            [0] *
+                        15 /
+                        32);
+                    outInfo.y.add(outInfo.r3['third']['display'][i]['point']
+                                [1] *
+                            15 /
+                            32 +
+                        37.5);
                   }
                 }
-                outInfo.t3 =
-                    outInfo.r3['third'].length.toString() + " Defect(s)";
+                outInfo.t3 = outInfo.r3['third']['display'].length.toString() +
+                    " Defect(s)";
                 errorMsg = '';
               }
               if (Frame.frame == 3) {
@@ -292,18 +310,24 @@ class _Camera4State extends State<Camera4> {
                     }
                   }
                 }
-                if (outInfo.r4['third'].length != 0) //파손 있을 때.
+                if (outInfo.r4['third']['display'].length != 0) //파손 있을 때.
                 {
-                  for (int i = 0; i < outInfo.r4['third'].length; i++) {
-                    outInfo.x.add(
-                        outInfo.r4['third'][i]['mapping_point'][0] * 15 / 32);
-                    outInfo.y.add(
-                        outInfo.r4['third'][i]['mapping_point'][1] * 15 / 32 +
-                            37.5);
+                  for (int i = 0;
+                      i < outInfo.r4['third']['display'].length;
+                      i++) {
+                    outInfo.x.add(outInfo.r4['third']['display'][i]['point']
+                            [0] *
+                        15 /
+                        32);
+                    outInfo.y.add(outInfo.r4['third']['display'][i]['point']
+                                [1] *
+                            15 /
+                            32 +
+                        37.5);
                   }
                 }
-                outInfo.t4 =
-                    outInfo.r4['third'].length.toString() + " Defect(s)";
+                outInfo.t4 = outInfo.r4['third']['display'].length.toString() +
+                    " Defect(s)";
                 errorMsg = '';
 
                 outInfo.car_number = car_num; //제일 prob높은 car_num 넘겨줌

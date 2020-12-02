@@ -2,6 +2,9 @@ import 'dart:io';
 import 'main.dart';
 import 'package:flutter/material.dart';
 import "camera.dart";
+import "search_car.dart";
+import 'material_widget.dart';
+import 'dart:async';
 
 class In extends StatefulWidget {
   static File p1;
@@ -25,11 +28,18 @@ class inInfo {
   static String consumer_name = '-';
   static String drived_distance = '-';
   static String fuel = '-';
+
   static List<double> x = [];
   static List<double> y = [];
+
+  static int index = 1;
 }
 
 class _InState extends State<In> {
+  FutureOr syncGG(dynamic value) {
+    setState(() {});
+  }
+
   File p1 = In.p1;
   File p2, p3, p4, p5;
   @override
@@ -77,6 +87,33 @@ class _InState extends State<In> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  width: 10,
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: ButtonTheme(
+                    minWidth: 50,
+                    height: 50,
+                    child: RaisedButton(
+                      color: Colors.teal,
+                      child: Icon(Icons.search, color: Colors.white, size: 20),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      onPressed: () {
+                        //GO CAMERA
+                        Frame.in_or_out = 'in';
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => Search_car(),
+                          ),
+                        ).then(syncGG);
+                      },
+                    ),
+                  ),
+                ),
               ]),
               SizedBox(
                 height: 10,
@@ -104,9 +141,7 @@ class _InState extends State<In> {
                           child: inInfo.x.length == 0 ? Text("") : ArcWidget()),
                     ],
                   ),
-                  SizedBox(
-                    width: 20,
-                  ),
+                  SizedBox(width: 20),
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -114,19 +149,23 @@ class _InState extends State<In> {
                       Container(
                         width: 60,
                         height: 60,
-                        child: In_Pic.pic1 == null
-                            ? Text('')
-                            : Image.file(
-                                File(In_Pic.pic1),
-                                width: 60,
-                                height: 60,
-                              ),
+                        child: FlatButton(
+                          padding: EdgeInsets.all(0),
+                          onPressed: () {
+                            inPic(context, inInfo.car_number, In_Pic.pic1,
+                                In_Pic.pic2, In_Pic.pic3, In_Pic.pic4, 1);
+                          },
+                          child: In_Pic.pic1 == null
+                              ? Text('')
+                              : Image.file(
+                                  File(In_Pic.pic1),
+                                  width: 60,
+                                  height: 60,
+                                ),
+                        ),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black, width: 1),
                           borderRadius: BorderRadius.circular(5),
-                          // image: DecorationImage(
-                          //   image: AssetImage('image/1.png'),
-                          // ),
                         ),
                       ),
                       Text(
@@ -135,19 +174,23 @@ class _InState extends State<In> {
                       Container(
                         width: 60,
                         height: 60,
-                        child: In_Pic.pic2 == null
-                            ? Text('')
-                            : Image.file(
-                                File(In_Pic.pic2),
-                                width: 60,
-                                height: 60,
-                              ),
+                        child: FlatButton(
+                          padding: EdgeInsets.all(0),
+                          onPressed: () {
+                            inPic(context, inInfo.car_number, In_Pic.pic1,
+                                In_Pic.pic2, In_Pic.pic3, In_Pic.pic4, 2);
+                          },
+                          child: In_Pic.pic2 == null
+                              ? Text('')
+                              : Image.file(
+                                  File(In_Pic.pic2),
+                                  width: 60,
+                                  height: 60,
+                                ),
+                        ),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black, width: 1),
                           borderRadius: BorderRadius.circular(5),
-                          // image: DecorationImage(
-                          //   image: AssetImage('image/2.png'),
-                          // ),
                         ),
                       ),
                       Text(
@@ -156,19 +199,23 @@ class _InState extends State<In> {
                       Container(
                         width: 60,
                         height: 60,
-                        child: In_Pic.pic3 == null
-                            ? Text('')
-                            : Image.file(
-                                File(In_Pic.pic3),
-                                width: 60,
-                                height: 60,
-                              ),
+                        child: FlatButton(
+                          padding: EdgeInsets.all(0),
+                          onPressed: () {
+                            inPic(context, inInfo.car_number, In_Pic.pic1,
+                                In_Pic.pic2, In_Pic.pic3, In_Pic.pic4, 3);
+                          },
+                          child: In_Pic.pic3 == null
+                              ? Text('')
+                              : Image.file(
+                                  File(In_Pic.pic3),
+                                  width: 60,
+                                  height: 60,
+                                ),
+                        ),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black, width: 1),
                           borderRadius: BorderRadius.circular(5),
-                          // image: DecorationImage(
-                          //   image: AssetImage('image/3.png'),
-                          // ),
                         ),
                       ),
                       Text(
@@ -177,19 +224,23 @@ class _InState extends State<In> {
                       Container(
                         width: 60,
                         height: 60,
-                        child: In_Pic.pic4 == null
-                            ? Text('')
-                            : Image.file(
-                                File(In_Pic.pic4),
-                                width: 60,
-                                height: 60,
-                              ),
+                        child: FlatButton(
+                          padding: EdgeInsets.all(0),
+                          onPressed: () {
+                            inPic(context, inInfo.car_number, In_Pic.pic1,
+                                In_Pic.pic2, In_Pic.pic3, In_Pic.pic4, 4);
+                          },
+                          child: In_Pic.pic4 == null
+                              ? Text('')
+                              : Image.file(
+                                  File(In_Pic.pic4),
+                                  width: 60,
+                                  height: 60,
+                                ),
+                        ),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black, width: 1),
                           borderRadius: BorderRadius.circular(5),
-                          // image: DecorationImage(
-                          //   image: AssetImage('image/4.png'),
-                          // ),
                         ),
                       ),
                       Text(
@@ -199,35 +250,6 @@ class _InState extends State<In> {
                   )
                 ],
               ),
-              // ),
-              // inInfo.r1 == null
-              //     ? Text('')
-              //     : inInfo.r1['third'].length == 0
-              //         ? Text('Front: Clear')
-              //         : Text("Front: " +
-              //             inInfo.r1['third'].length.toString() +
-              //             " Defect(s)"),
-              // inInfo.r2 == null
-              //     ? Text('')
-              //     : inInfo.r2['third'].length == 0
-              //         ? Text('Right Side: Clear')
-              //         : Text("Right Side: " +
-              //             inInfo.r2['third'].length.toString() +
-              //             " Defect(s)"),
-              // inInfo.r3 == null
-              //     ? Text('')
-              //     : inInfo.r3['third'].length == 0
-              //         ? Text('Back: Clear')
-              //         : Text("Back: " +
-              //             inInfo.r3['third'].length.toString() +
-              //             " Defect(s)"),
-              // inInfo.r4 == null
-              //     ? Text('Left Side: Clear')
-              //     : inInfo.r4['third'].length == 0
-              //         ? Text('')
-              //         : Text("Left Side: " +
-              //             inInfo.r4['third'].length.toString() +
-              //             " Defect(s)"),
               SizedBox(height: 20),
               Text('대여정보'),
               SizedBox(

@@ -224,17 +224,20 @@ class _Camera4State extends State<Camera4> {
                     }
                   }
                 }
-                if (inInfo.r1['third'].length != 0) //파손 있을 때.
+                if (inInfo.r1['third']['display'].length != 0) //파손 있을 때.
                 {
-                  for (int i = 0; i < inInfo.r1['third'].length; i++) {
+                  for (int i = 0;
+                      i < inInfo.r1['third']['display'].length;
+                      i++) {
                     inInfo.x.add(
-                        inInfo.r1['third'][i]['mapping_point'][0] * 15 / 32);
+                        inInfo.r1['third']['display'][i]['point'][0] * 15 / 32);
                     inInfo.y.add(
-                        inInfo.r1['third'][i]['mapping_point'][1] * 15 / 32 +
+                        inInfo.r1['third']['display'][i]['point'][1] * 15 / 32 +
                             37.5);
                   }
                 }
-                inInfo.t1 = inInfo.r1['third'].length.toString() + " Defect(s)";
+                inInfo.t1 = inInfo.r1['third']['display'].length.toString() +
+                    " Defect(s)";
                 errorMsg = '';
               }
               if (Frame.frame == 1) {
@@ -246,17 +249,20 @@ class _Camera4State extends State<Camera4> {
                     }
                   }
                 }
-                if (inInfo.r2['third'].length != 0) //파손 있을 때.
+                if (inInfo.r2['third']['display'].length != 0) //파손 있을 때.
                 {
-                  for (int i = 0; i < inInfo.r2['third'].length; i++) {
+                  for (int i = 0;
+                      i < inInfo.r2['third']['display'].length;
+                      i++) {
                     inInfo.x.add(
-                        inInfo.r2['third'][i]['mapping_point'][0] * 15 / 32);
+                        inInfo.r2['third']['display'][i]['point'][0] * 15 / 32);
                     inInfo.y.add(
-                        inInfo.r2['third'][i]['mapping_point'][1] * 15 / 32 +
+                        inInfo.r2['third']['display'][i]['point'][1] * 15 / 32 +
                             37.5);
                   }
                 }
-                inInfo.t2 = inInfo.r2['third'].length.toString() + " Defect(s)";
+                inInfo.t2 = inInfo.r2['third']['display'].length.toString() +
+                    " Defect(s)";
                 errorMsg = '';
               }
               if (Frame.frame == 2) {
@@ -268,17 +274,20 @@ class _Camera4State extends State<Camera4> {
                     }
                   }
                 }
-                if (inInfo.r3['third'].length != 0) //파손 있을 때.
+                if (inInfo.r3['third']['display'].length != 0) //파손 있을 때.
                 {
-                  for (int i = 0; i < inInfo.r3['third'].length; i++) {
+                  for (int i = 0;
+                      i < inInfo.r3['third']['display'].length;
+                      i++) {
                     inInfo.x.add(
-                        inInfo.r3['third'][i]['mapping_point'][0] * 15 / 32);
+                        inInfo.r3['third']['display'][i]['point'][0] * 15 / 32);
                     inInfo.y.add(
-                        inInfo.r3['third'][i]['mapping_point'][1] * 15 / 32 +
+                        inInfo.r3['third']['display'][i]['point'][1] * 15 / 32 +
                             37.5);
                   }
                 }
-                inInfo.t3 = inInfo.r3['third'].length.toString() + " Defect(s)";
+                inInfo.t3 = inInfo.r3['third']['display'].length.toString() +
+                    " Defect(s)";
                 errorMsg = '';
               }
               if (Frame.frame == 3) {
@@ -290,17 +299,20 @@ class _Camera4State extends State<Camera4> {
                     }
                   }
                 }
-                if (inInfo.r4['third'].length != 0) //파손 있을 때.
+                if (inInfo.r4['third']['display'].length != 0) //파손 있을 때.
                 {
-                  for (int i = 0; i < inInfo.r4['third'].length; i++) {
+                  for (int i = 0;
+                      i < inInfo.r4['third']['display'].length;
+                      i++) {
                     inInfo.x.add(
-                        inInfo.r4['third'][i]['mapping_point'][0] * 15 / 32);
+                        inInfo.r4['third']['display'][i]['point'][0] * 15 / 32);
                     inInfo.y.add(
-                        inInfo.r4['third'][i]['mapping_point'][1] * 15 / 32 +
+                        inInfo.r4['third']['display'][i]['point'][1] * 15 / 32 +
                             37.5);
                   }
                 }
-                inInfo.t4 = inInfo.r4['third'].length.toString() + " Defect(s)";
+                inInfo.t4 = inInfo.r4['third']['display'].length.toString() +
+                    " Defect(s)";
                 errorMsg = '';
 
                 inInfo.car_number = car_num; //제일 prob높은 car_num 넘겨줌

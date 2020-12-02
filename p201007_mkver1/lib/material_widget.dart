@@ -1,4 +1,7 @@
+import 'dart:io';
+import 'in.dart';
 import 'package:flutter/material.dart';
+import 'out.dart';
 
 TableRow taskCar(context, carname, carnumber) {
   return TableRow(
@@ -174,5 +177,357 @@ TableRow defaultRow() {
         "",
       ),
     ],
+  );
+}
+
+void left(setState) {
+  setState(() {
+    if (inInfo.index == 1) {
+      inInfo.index = 4;
+    } else {
+      inInfo.index--;
+    }
+  });
+}
+
+void right(setState) {
+  setState(() {
+    if (inInfo.index == 4) {
+      inInfo.index = 1;
+    } else {
+      inInfo.index++;
+    }
+  });
+}
+
+Future inPic(
+    BuildContext context, car_num, image1, image2, image3, image4, index) {
+  var showImage;
+  if (index == 1) {
+    showImage = image1;
+  } else if (index == 2) {
+    showImage = image2;
+  } else if (index == 3) {
+    showImage = image3;
+  } else {
+    showImage = image4;
+  }
+  inInfo.index = index;
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return StatefulBuilder(
+        builder: (context, StateSetter setState) {
+          return AlertDialog(
+            title: Text(
+              "자세한 차량 사진",
+              textAlign: TextAlign.center,
+            ),
+            content: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(car_num),
+                  Text(inInfo.index.toString() + '/4'),
+                  Container(
+                    child: showImage == null
+                        ? Text('')
+                        : Image.file(
+                            File(showImage),
+                            width: 300,
+                            height: 240,
+                          ),
+                  ),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    ButtonTheme(
+                      minWidth: 30,
+                      height: 30,
+                      child: RaisedButton(
+                        color: Colors.white,
+                        child: Icon(Icons.arrow_back),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        // padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                        onPressed: () {
+                          if (inInfo.index == 1) {
+                            showImage = image4;
+                          } else if (inInfo.index == 2) {
+                            showImage = image1;
+                          } else if (inInfo.index == 3) {
+                            showImage = image2;
+                          } else {
+                            showImage = image3;
+                          }
+                          left(setState);
+                        },
+
+                        // Navigator.pop(context);
+                        // inPic(
+                        //     context, car_num, 4, image1, image2, image3, image4);
+                        // if (index == 1) {
+                        //   showImage = image4;
+                        // }
+                      ),
+                    ),
+                    SizedBox(
+                      width: 110,
+                    ),
+                    ButtonTheme(
+                      minWidth: 30,
+                      height: 30,
+                      child: RaisedButton(
+                        color: Colors.white,
+                        child: Icon(Icons.arrow_forward),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        // padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                        onPressed: () {
+                          if (inInfo.index == 1) {
+                            showImage = image2;
+                          } else if (inInfo.index == 2) {
+                            showImage = image3;
+                          } else if (inInfo.index == 3) {
+                            showImage = image4;
+                          } else {
+                            showImage = image1;
+                          }
+                          right(setState);
+                        },
+                      ),
+                    ),
+                  ]),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ButtonTheme(
+                        minWidth: 100,
+                        height: 30,
+                        child: RaisedButton(
+                          color: Colors.teal,
+                          child: Text(
+                            '이전사진',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          // padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                          onPressed: () {},
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      ButtonTheme(
+                        minWidth: 100,
+                        height: 30,
+                        child: RaisedButton(
+                          color: Colors.teal,
+                          child: Text(
+                            '현재사진',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          // padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                          onPressed: () {},
+                        ),
+                      ),
+                    ],
+                  ),
+                ]),
+            actions: [
+              FlatButton(
+                child: Text('Close'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    },
+  );
+}
+
+void leftO(setState) {
+  setState(() {
+    if (outInfo.index == 1) {
+      outInfo.index = 4;
+    } else {
+      outInfo.index--;
+    }
+  });
+}
+
+void rightO(setState) {
+  setState(() {
+    if (outInfo.index == 4) {
+      outInfo.index = 1;
+    } else {
+      outInfo.index++;
+    }
+  });
+}
+
+Future outPic(
+    BuildContext context, car_num, image1, image2, image3, image4, index) {
+  var showImage;
+  if (index == 1) {
+    showImage = image1;
+  } else if (index == 2) {
+    showImage = image2;
+  } else if (index == 3) {
+    showImage = image3;
+  } else {
+    showImage = image4;
+  }
+  outInfo.index = index;
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return StatefulBuilder(
+        builder: (context, StateSetter setState) {
+          return AlertDialog(
+            title: Text(
+              "자세한 차량 사진",
+              textAlign: TextAlign.center,
+            ),
+            content: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(car_num),
+                  Text(outInfo.index.toString() + '/4'),
+                  Container(
+                    child: showImage == null
+                        ? Text('')
+                        : Image.file(
+                            File(showImage),
+                            width: 300,
+                            height: 240,
+                          ),
+                  ),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    ButtonTheme(
+                      minWidth: 30,
+                      height: 30,
+                      child: RaisedButton(
+                        color: Colors.white,
+                        child: Icon(Icons.arrow_back),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        // padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                        onPressed: () {
+                          if (outInfo.index == 1) {
+                            showImage = image4;
+                          } else if (outInfo.index == 2) {
+                            showImage = image1;
+                          } else if (outInfo.index == 3) {
+                            showImage = image2;
+                          } else {
+                            showImage = image3;
+                          }
+                          leftO(setState);
+                        },
+
+                        // Navigator.pop(context);
+                        // inPic(
+                        //     context, car_num, 4, image1, image2, image3, image4);
+                        // if (index == 1) {
+                        //   showImage = image4;
+                        // }
+                      ),
+                    ),
+                    SizedBox(
+                      width: 110,
+                    ),
+                    ButtonTheme(
+                      minWidth: 30,
+                      height: 30,
+                      child: RaisedButton(
+                        color: Colors.white,
+                        child: Icon(Icons.arrow_forward),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        // padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                        onPressed: () {
+                          if (outInfo.index == 1) {
+                            showImage = image2;
+                          } else if (outInfo.index == 2) {
+                            showImage = image3;
+                          } else if (outInfo.index == 3) {
+                            showImage = image4;
+                          } else {
+                            showImage = image1;
+                          }
+                          rightO(setState);
+                        },
+                      ),
+                    ),
+                  ]),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ButtonTheme(
+                        minWidth: 100,
+                        height: 30,
+                        child: RaisedButton(
+                          color: Colors.teal,
+                          child: Text(
+                            '이전사진',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          // padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                          onPressed: () {},
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      ButtonTheme(
+                        minWidth: 100,
+                        height: 30,
+                        child: RaisedButton(
+                          color: Colors.teal,
+                          child: Text(
+                            '현재사진',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          // padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                          onPressed: () {},
+                        ),
+                      ),
+                    ],
+                  ),
+                ]),
+            actions: [
+              FlatButton(
+                child: Text('Close'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    },
   );
 }

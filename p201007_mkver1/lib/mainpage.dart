@@ -21,11 +21,10 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
-  int _counter = 0;
-  final StreamController<int> _streamController = StreamController();
-  // final StreamController<int> _ctrl = StreamController();
-  final Stream<int> stream =
-      Stream.periodic(Duration(seconds: 1), (int x) => x); // 1초에 한
+  FutureOr syncGG(dynamic value) {
+    setState(() {});
+  }
+
   @override
   var now = new DateTime.now();
   @override
@@ -60,17 +59,6 @@ class _MainPageState extends State<MainPage> {
                     alignment: Alignment.centerLeft,
                     child: Text(MemberData.id),
                   ),
-                  SizedBox(
-                    width: 300,
-                  ),
-                  FloatingActionButton(
-                    backgroundColor: Colors.teal,
-                    tooltip: 'Refresh',
-                    onPressed: syncGo,
-                    child: Icon(
-                      Icons.refresh,
-                    ),
-                  ),
                 ],
               ),
               SizedBox(
@@ -85,10 +73,14 @@ class _MainPageState extends State<MainPage> {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       now.year.toString() +
-                          "." +
+                          "/" +
                           now.month.toString() +
-                          "." +
-                          now.day.toString(),
+                          "/" +
+                          now.day.toString() +
+                          " " +
+                          now.hour.toString() +
+                          ":" +
+                          now.minute.toString(),
                     ),
                   ),
                 ],
@@ -209,7 +201,7 @@ class _MainPageState extends State<MainPage> {
                       MaterialPageRoute(
                         builder: (BuildContext context) => Task(),
                       ),
-                    );
+                    ).then(syncGG);
                   },
                 ),
               ),
