@@ -141,6 +141,15 @@ class _OutState extends State<Out> {
                       Center(
                           child:
                               outInfo.x.length == 0 ? Text("") : ArcWidget()),
+                      Container(
+                        width: 300,
+                        height: 300,
+                        child: FlatButton(
+                            child: Text(""),
+                            onPressed: () {
+                              showScratch(context, outInfo.x, outInfo.y);
+                            }),
+                      )
                     ],
                   ),
                   SizedBox(width: 20),

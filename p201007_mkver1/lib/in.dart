@@ -139,6 +139,15 @@ class _InState extends State<In> {
                       ),
                       Center(
                           child: inInfo.x.length == 0 ? Text("") : ArcWidget()),
+                      Container(
+                        width: 300,
+                        height: 300,
+                        child: FlatButton(
+                            child: Text(""),
+                            onPressed: () {
+                              showScratch(context, inInfo.x, inInfo.y);
+                            }),
+                      )
                     ],
                   ),
                   SizedBox(width: 20),
@@ -406,7 +415,7 @@ class _ArcPainter extends CustomPainter {
         ..drawRect(
             re[i],
             Paint()
-              ..color = Colors.redAccent
+              ..color = Colors.red
               ..style = PaintingStyle.stroke
               ..strokeWidth = 3);
     }

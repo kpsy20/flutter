@@ -200,6 +200,88 @@ void right(setState) {
   });
 }
 
+Future scratchPic(BuildContext context) {
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return StatefulBuilder(
+        builder: (context, StateSetter setState) {
+          return AlertDialog(
+            title: Text(
+              "손상여부확인",
+              textAlign: TextAlign.center,
+
+            ),
+            content: , 
+            actions: [
+              FlatButton(
+                child: Text('Close'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    },
+  );
+}
+
+List<Container> scratchList(
+    List<double> x, List<double> y, BuildContext context) {
+  List<Container> result = [];
+  for (int i = 0; i < x.length; i++) {
+    result.add(
+      Container(
+        child: FlatButton(
+          onPressed: () {
+            Navigator.pop(context);
+            scratchPic(context);
+          },
+          child: Text((i + 1).toString() +
+              "번 손상 (" +
+              x[i].toString() +
+              ", " +
+              y[i].toString() +
+              ")"),
+        ),
+      ),
+    );
+  }
+  return result;
+}
+
+Future showScratch(BuildContext context, List<double> x, List<double> y) {
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return StatefulBuilder(
+        builder: (context, StateSetter setState) {
+          return AlertDialog(
+            title: Text(
+              "손상 목록",
+              textAlign: TextAlign.center,
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: scratchList(x, y, context),
+            ),
+            actions: [
+              FlatButton(
+                child: Text('Close'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    },
+  );
+}
+
 Future inPic(
     BuildContext context, car_num, image1, image2, image3, image4, index) {
   var showImage;
