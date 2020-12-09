@@ -15,10 +15,10 @@ class In extends StatefulWidget {
 }
 
 class inInfo {
-  static String t1 = "not yet";
-  static String t2 = "not yet";
-  static String t3 = "not yet";
-  static String t4 = "not yet";
+  static String t1 = "";
+  static String t2 = "";
+  static String t3 = "";
+  static String t4 = "";
 
   static var r1;
   static var r2;
@@ -137,54 +137,58 @@ class _InState extends State<In> {
                   ),
                   GestureDetector(
                     onTapDown: (TapDownDetails td) {
-                      setState(() {
-                        this.cdx = td.localPosition.dx;
-                        this.cdy = td.localPosition.dy;
-                        //cdx 와 cdy에 밑 container 기준으로 좌표 저장됨.
-                        if (inInfo.x.length != 0) {
-                          //이제 손상이 있을 때.
-                          double shortest = 450;
-                          int shortest_index = -1;
-                          for (int i = 0; i < inInfo.x.length; i++) {
-                            double scratch_x = inInfo.x[i];
-                            double scratch_y = inInfo.y[i];
-                            double distance = sqrt((this.cdx - scratch_x) *
-                                    (this.cdx - scratch_x) +
-                                (this.cdy - scratch_y) *
-                                    (this.cdy - scratch_y));
-                            if (shortest > distance) {
-                              shortest = distance;
-                              shortest_index = i;
-                              inInfo.index = i;
+                      setState(
+                        () {
+                          this.cdx = td.localPosition.dx;
+                          this.cdy = td.localPosition.dy;
+                          //cdx 와 cdy에 밑 container 기준으로 좌표 저장됨.
+                          if (inInfo.x.length != 0) {
+                            //이제 손상이 있을 때.
+                            double shortest = 450;
+                            int shortest_index = -1;
+                            for (int i = 0; i < inInfo.x.length; i++) {
+                              double scratch_x = inInfo.x[i];
+                              double scratch_y = inInfo.y[i];
+                              double distance = sqrt((this.cdx - scratch_x) *
+                                      (this.cdx - scratch_x) +
+                                  (this.cdy - scratch_y) *
+                                      (this.cdy - scratch_y));
+                              if (shortest > distance) {
+                                shortest = distance;
+                                shortest_index = i;
+                                inInfo.index = i;
+                              }
                             }
-                          }
-                          if (shortest < 50) {
-                            if (inInfo.size_dot[shortest_index] == 3) {
+                            if (shortest < 50) {
+                              if (inInfo.size_dot[shortest_index] == 3) {
+                                for (int i = 0; i < inInfo.x.length; i++) {
+                                  inInfo.size_dot[i] = 3;
+                                }
+                                inInfo.size_dot[shortest_index] = 20;
+                              } else if (inInfo.size_dot[shortest_index] ==
+                                  20) {
+                                print(shortest_index.toString() +
+                                    '번째 손상을 선택했습니다.');
+                                print(shortest.toString() + "거리차");
+                                //여기에 이제 처리하는 과정..
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        Scratch(),
+                                  ),
+                                ).then(syncGG);
+                              }
+                            } else {
+                              print("다시 터치");
                               for (int i = 0; i < inInfo.x.length; i++) {
+                                inInfo.color_name[i] = Colors.red;
                                 inInfo.size_dot[i] = 3;
                               }
-                              inInfo.size_dot[shortest_index] = 20;
-                            } else if (inInfo.size_dot[shortest_index] == 20) {
-                              print(
-                                  shortest_index.toString() + '번째 손상을 선택했습니다.');
-                              print(shortest.toString() + "거리차");
-                              //여기에 이제 처리하는 과정..
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) => Scratch(),
-                                ),
-                              ).then(syncGG);
-                            }
-                          } else {
-                            print("다시 터치");
-                            for (int i = 0; i < inInfo.x.length; i++) {
-                              inInfo.color_name[i] = Colors.red;
-                              inInfo.size_dot[i] = 3;
                             }
                           }
-                        }
-                      });
+                        },
+                      );
                     },
                     child: Stack(
                       children: [

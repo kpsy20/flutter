@@ -12,6 +12,7 @@ import 'out.dart';
 import 'package:image_size_getter/image_size_getter.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
 
 // 사용자가 주어진 카메라를 사용하여 사진을 찍을 수 있는 화면
 class Camera4 extends StatefulWidget {
@@ -141,22 +142,20 @@ class _Camera4State extends State<Camera4> {
                   textAlign: TextAlign.center,
                 ),
                 Container(
-                  width: 400,
-                  height: 700,
+                  width: MediaQuery.of(context).size.width / 1.1,
+                  height: MediaQuery.of(context).size.width / 1.1 * 16 / 9,
                   child: FutureBuilder<void>(
                     future: _initializeControllerFuture,
                     builder: (context, snapshot) {
                       // final size = MediaQuery.of(context).size;
                       // final deviceRatio = size.width / size.height;
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        // Future가 완료되면, 프리뷰를 보여줍니다.
-                        return CameraPreview(
-                          _controller,
-                        );
-                      } else {
-                        // 그렇지 않다면, 진행 표시기를 보여줍니다.
-                        return Center(child: CircularProgressIndicator());
-                      }
+                      return snapshot.connectionState != ConnectionState.done
+                          ? Center(child: CircularProgressIndicator())
+                          : CameraData.whereIs == 0
+                              ? CameraPreview(
+                                  _controller,
+                                )
+                              : Center(child: CircularProgressIndicator());
                     },
                   ),
                 ),
@@ -183,6 +182,9 @@ class _Camera4State extends State<Camera4> {
               if (Frame.frame == 3) {
                 errorMsg = "좌측면 처리중 입니다...";
               }
+              CameraData.whereIs = 1;
+
+              setState(() {});
               // 카메라 초기화가 완료됐는지 확인합니다.
               if (Frame.frame == 0) {
                 await _initializeControllerFuture;
@@ -205,6 +207,8 @@ class _Camera4State extends State<Camera4> {
               if (Frame.frame == 0) {
                 inInfo.x.removeRange(0, inInfo.x.length);
                 inInfo.y.removeRange(0, inInfo.y.length);
+                inInfo.size_dot.removeRange(0, inInfo.size_dot.length);
+                inInfo.color_name.removeRange(0, inInfo.color_name.length);
                 inInfo.r1 = await detect_car(img64);
                 // result1 = await detect_car(img64);
                 if (inInfo.r1.containsKey('second')) {
@@ -319,6 +323,8 @@ class _Camera4State extends State<Camera4> {
               Frame.frame = Frame.frame + 1;
               int num = Frame.frame;
               String file_name = 'pic' + '$num';
+              CameraData.whereIs = 0;
+              setState(() {});
               //입고 또는 출고에서 왔는지 판단하는 변수
               if (Frame.in_or_out == 'in') {
                 In_Pic.Set(file_name, path);
@@ -336,23 +342,25 @@ class _Camera4State extends State<Camera4> {
               // 만약 에러가 발생하면, 콘솔에 에러 로그를 남깁니다.
               List<String> errorList = ['전면', '오른쪽 측면', '후면', '왼쪽 측면'];
               flutterToast(errorList[Frame.frame] + "사진을 다시 찍어주세요.");
-
+              CameraData.whereIs = 0;
               errorMsg = errorList[Frame.frame] + " 사진을 다시 찍어주세요";
 
               print("ERROR!!!!!!!!!!!!!!!!!!!!!!!ERROR");
               print(e);
             }
-            setState(() {
-              if (Frame.frame == 1) {
-                order = '오른쪽 측면을 찍어주세요';
-              }
-              if (Frame.frame == 2) {
-                order = '후면을 찍어주세요';
-              }
-              if (Frame.frame == 3) {
-                order = '왼쪽 측면을 찍어주세요';
-              }
-            });
+            setState(
+              () {
+                if (Frame.frame == 1) {
+                  order = '오른쪽 측면을 찍어주세요';
+                }
+                if (Frame.frame == 2) {
+                  order = '후면을 찍어주세요';
+                }
+                if (Frame.frame == 3) {
+                  order = '왼쪽 측면을 찍어주세요';
+                }
+              },
+            );
           },
         ),
       ),
@@ -365,6 +373,8 @@ class CameraData {
   static String path2 = '';
   static String path3 = '';
   static String path4 = '';
+
+  static int whereIs = 0;
 }
 
 // 사용자가 촬영한 사진을 보여주는 위젯
