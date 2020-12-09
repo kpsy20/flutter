@@ -1,41 +1,16 @@
 import 'dart:io';
 import 'dart:math';
-import 'main.dart';
 import 'package:flutter/material.dart';
 import "camera.dart";
 import "search_car.dart";
 import 'material_widget.dart';
 import 'dart:async';
 import 'scratch.dart';
+import 'dataset.dart';
 
 class In extends StatefulWidget {
-  static File p1;
   @override
   _InState createState() => _InState();
-}
-
-class inInfo {
-  static String t1 = "";
-  static String t2 = "";
-  static String t3 = "";
-  static String t4 = "";
-
-  static var r1;
-  static var r2;
-  static var r3;
-  static var r4;
-
-  static String car_number = '-';
-  static String car_kind = '-';
-  static String consumer_name = '-';
-  static String drived_distance = '-';
-  static String fuel = '-';
-
-  static List<double> x = [];
-  static List<double> y = [];
-  static List<Color> color_name = [];
-  static List<double> size_dot = [];
-  static int index;
 }
 
 class _InState extends State<In> {
@@ -52,8 +27,6 @@ class _InState extends State<In> {
   set cdx(double newCdx) => this._cdx = newCdx;
   set cdy(double newCdy) => this._cdy = newCdy;
 
-  File p1 = In.p1;
-  File p2, p3, p4, p5;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

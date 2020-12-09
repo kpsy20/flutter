@@ -1,18 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:p201007_mkver1/in.dart';
-import 'in.dart';
-import 'main.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
-import 'out.dart';
 import 'package:image_size_getter/image_size_getter.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutter/services.dart';
+import 'dataset.dart';
 
 // 사용자가 주어진 카메라를 사용하여 사진을 찍을 수 있는 화면
 class Camera4 extends StatefulWidget {
@@ -151,7 +147,7 @@ class _Camera4State extends State<Camera4> {
                       // final deviceRatio = size.width / size.height;
                       return snapshot.connectionState != ConnectionState.done
                           ? Center(child: CircularProgressIndicator())
-                          : CameraData.whereIs == 0
+                          : CameraData.whereIsIn == 0
                               ? CameraPreview(
                                   _controller,
                                 )
@@ -182,7 +178,7 @@ class _Camera4State extends State<Camera4> {
               if (Frame.frame == 3) {
                 errorMsg = "좌측면 처리중 입니다...";
               }
-              CameraData.whereIs = 1;
+              CameraData.whereIsIn = 1;
 
               setState(() {});
               // 카메라 초기화가 완료됐는지 확인합니다.
@@ -323,7 +319,7 @@ class _Camera4State extends State<Camera4> {
               Frame.frame = Frame.frame + 1;
               int num = Frame.frame;
               String file_name = 'pic' + '$num';
-              CameraData.whereIs = 0;
+              CameraData.whereIsIn = 0;
               setState(() {});
               //입고 또는 출고에서 왔는지 판단하는 변수
               if (Frame.in_or_out == 'in') {
@@ -342,7 +338,7 @@ class _Camera4State extends State<Camera4> {
               // 만약 에러가 발생하면, 콘솔에 에러 로그를 남깁니다.
               List<String> errorList = ['전면', '오른쪽 측면', '후면', '왼쪽 측면'];
               flutterToast(errorList[Frame.frame] + "사진을 다시 찍어주세요.");
-              CameraData.whereIs = 0;
+              CameraData.whereIsIn = 0;
               errorMsg = errorList[Frame.frame] + " 사진을 다시 찍어주세요";
 
               print("ERROR!!!!!!!!!!!!!!!!!!!!!!!ERROR");
@@ -366,15 +362,6 @@ class _Camera4State extends State<Camera4> {
       ),
     );
   }
-}
-
-class CameraData {
-  static String path1 = '';
-  static String path2 = '';
-  static String path3 = '';
-  static String path4 = '';
-
-  static int whereIs = 0;
 }
 
 // 사용자가 촬영한 사진을 보여주는 위젯

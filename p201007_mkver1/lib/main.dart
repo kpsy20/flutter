@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'mainpage.dart';
+import 'dataset.dart';
 
 Future<void> main() async {
   //카메라 찾는부분, 정확히 어떤 기능을 수행하는지는 모름..
@@ -90,31 +91,9 @@ class _MKState extends State<MK> {
                           padding: EdgeInsets.all(30.0),
                           child: Column(
                             children: [
-                              TextField(
-                                autofocus: false,
-                                controller: controller3,
-                                decoration: InputDecoration(
-                                  labelText: "회사코드를 입력하세요",
-                                  labelStyle: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                              TextField(
-                                autofocus: false,
-                                controller: controller,
-                                decoration: InputDecoration(
-                                  labelText: "아이디를 입력하세요",
-                                  labelStyle: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                              TextField(
-                                autofocus: false,
-                                controller: controller2,
-                                decoration: InputDecoration(
-                                  labelText: "비밀번호를 입력하세요",
-                                  labelStyle: TextStyle(fontSize: 15),
-                                ),
-                                obscureText: true,
-                              ),
+                              textField('회사코드를 입력하세요', controller3, false),
+                              textField("아이디를 입력하세요", controller, false),
+                              textField("비밀번호를 입력하세요", controller2, true),
                             ],
                           ),
                         ),
@@ -142,7 +121,8 @@ class _MKState extends State<MK> {
                       height: 50,
                       child: RaisedButton(
                         color: Colors.teal,
-                        child: Icon(Icons.style, color: Colors.white, size: 35),
+                        child: Icon(Icons.assignment_ind,
+                            color: Colors.white, size: 35),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18),
                         ),
@@ -169,78 +149,15 @@ class _MKState extends State<MK> {
   }
 }
 
-class MemberData {
-  static String id = "null";
-  static String com = "null";
-}
-
-class Cam {
-  static var cam;
-}
-
-class Frame {
-  static int frame = 0;
-  static String in_or_out = '';
-}
-
-class In_Pic {
-  static void Set(name, img) {
-    if (name == 'pic1') {
-      pic1 = img;
-    } else if (name == 'pic2') {
-      pic2 = img;
-    } else if (name == 'pic3') {
-      pic3 = img;
-    } else if (name == 'pic4') {
-      pic4 = img;
-    }
-  }
-
-  static void Get(name) {
-    if (name == 'pic1') {
-      return pic1;
-    } else if (name == 'pic2') {
-      return pic2;
-    } else if (name == 'pic3') {
-      return pic3;
-    } else if (name == 'pic4') {
-      return pic4;
-    }
-  }
-
-  static var pic1;
-  static var pic2;
-  static var pic3;
-  static var pic4;
-}
-
-class Out_Pic {
-  static void Set(name, img) {
-    if (name == 'pic1') {
-      pic1 = img;
-    } else if (name == 'pic2') {
-      pic2 = img;
-    } else if (name == 'pic3') {
-      pic3 = img;
-    } else if (name == 'pic4') {
-      pic4 = img;
-    }
-  }
-
-  static void Get(name) {
-    if (name == 'pic1') {
-      return pic1;
-    } else if (name == 'pic2') {
-      return pic2;
-    } else if (name == 'pic3') {
-      return pic3;
-    } else if (name == 'pic4') {
-      return pic4;
-    }
-  }
-
-  static var pic1;
-  static var pic2;
-  static var pic3;
-  static var pic4;
+TextField textField(
+    String name, TextEditingController controller, bool obscure) {
+  return TextField(
+    autofocus: false,
+    controller: controller,
+    decoration: InputDecoration(
+      labelText: name,
+      labelStyle: TextStyle(fontSize: 15),
+    ),
+    obscureText: obscure,
+  );
 }

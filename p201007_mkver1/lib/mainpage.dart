@@ -1,26 +1,16 @@
 import 'dart:async';
-import 'main.dart';
 import 'package:flutter/material.dart';
 import 'in.dart';
 import 'out.dart';
 import 'task.dart';
+import 'dataset.dart';
 
 class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
 }
 
-class DataMainPage {
-  static int numberOfTask = Data.carList.length;
-}
-
 class _MainPageState extends State<MainPage> {
-  void syncGo() {
-    setState(() {
-      // DataMainPage.numberOfTask = Data.carList.length;
-    });
-  }
-
   FutureOr syncGG(dynamic value) {
     setState(() {});
   }
@@ -185,7 +175,7 @@ class _MainPageState extends State<MainPage> {
                       CircleAvatar(
                         backgroundColor: Colors.white,
                         child: Text(
-                          DataMainPage.numberOfTask.toString(),
+                          Data.carList.length.toString(),
                           style: TextStyle(fontSize: 20, color: Colors.teal),
                         ),
                       )

@@ -1,38 +1,16 @@
 import 'dart:io';
-import 'main.dart';
+import 'dart:math';
 import 'package:flutter/material.dart';
+import "cameraout.dart";
 import "search_car.dart";
 import 'material_widget.dart';
 import 'dart:async';
-import 'cameraout.dart';
+import 'scratch.dart';
+import 'dataset.dart';
 
 class Out extends StatefulWidget {
-  static File p1;
   @override
   _OutState createState() => _OutState();
-}
-
-class outInfo {
-  static String t1 = "not yet";
-  static String t2 = "not yet";
-  static String t3 = "not yet";
-  static String t4 = "not yet";
-
-  static var r1;
-  static var r2;
-  static var r3;
-  static var r4;
-
-  static String car_number = '-';
-  static String car_kind = '-';
-  static String consumer_name = '-';
-  static String drived_distance = '-';
-  static String fuel = '-';
-
-  static List<double> x = [];
-  static List<double> y = [];
-
-  static int index = 1;
 }
 
 class _OutState extends State<Out> {
@@ -40,8 +18,15 @@ class _OutState extends State<Out> {
     setState(() {});
   }
 
-  File p1 = Out.p1;
-  File p2, p3, p4, p5;
+  double _cdx = 0;
+  double _cdy = 0;
+
+  double get cdx => this._cdx;
+  double get cdy => this._cdy;
+
+  set cdx(double newCdx) => this._cdx = newCdx;
+  set cdy(double newCdy) => this._cdy = newCdy;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,33 +108,80 @@ class _OutState extends State<Out> {
                   SizedBox(
                     width: 10,
                   ),
-                  Stack(
-                    children: [
-                      Container(
-                        width: 300,
-                        height: 300,
-                        decoration: BoxDecoration(
-                          //여기에 이제 띄워야함. 파손된 부위들을.
-                          border: Border.all(color: Colors.black, width: 1),
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                            image: AssetImage('image/defect.jpg'),
+                  GestureDetector(
+                    onTapDown: (TapDownDetails td) {
+                      setState(
+                        () {
+                          this.cdx = td.localPosition.dx;
+                          this.cdy = td.localPosition.dy;
+                          //cdx 와 cdy에 밑 container 기준으로 좌표 저장됨.
+                          if (outInfo.x.length != 0) {
+                            //이제 손상이 있을 때.
+                            double shortest = 450;
+                            int shortest_index = -1;
+                            for (int i = 0; i < outInfo.x.length; i++) {
+                              double scratch_x = outInfo.x[i];
+                              double scratch_y = outInfo.y[i];
+                              double distance = sqrt((this.cdx - scratch_x) *
+                                      (this.cdx - scratch_x) +
+                                  (this.cdy - scratch_y) *
+                                      (this.cdy - scratch_y));
+                              if (shortest > distance) {
+                                shortest = distance;
+                                shortest_index = i;
+                                outInfo.index = i;
+                              }
+                            }
+                            if (shortest < 50) {
+                              if (outInfo.size_dot[shortest_index] == 3) {
+                                for (int i = 0; i < outInfo.x.length; i++) {
+                                  outInfo.size_dot[i] = 3;
+                                }
+                                outInfo.size_dot[shortest_index] = 20;
+                              } else if (outInfo.size_dot[shortest_index] ==
+                                  20) {
+                                print(shortest_index.toString() +
+                                    '번째 손상을 선택했습니다.');
+                                print(shortest.toString() + "거리차");
+                                //여기에 이제 처리하는 과정..
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        Scratch(),
+                                  ),
+                                ).then(syncGG);
+                              }
+                            } else {
+                              print("다시 터치");
+                              for (int i = 0; i < outInfo.x.length; i++) {
+                                outInfo.color_name[i] = Colors.red;
+                                outInfo.size_dot[i] = 3;
+                              }
+                            }
+                          }
+                        },
+                      );
+                    },
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: 300,
+                          height: 300,
+                          decoration: BoxDecoration(
+                            //여기에 이제 띄워야함. 파손된 부위들을.
+                            border: Border.all(color: Colors.black, width: 1),
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                              image: AssetImage('image/defect.jpg'),
+                            ),
                           ),
                         ),
-                      ),
-                      Center(
-                          child:
-                              outInfo.x.length == 0 ? Text("") : ArcWidget()),
-                      Container(
-                        width: 300,
-                        height: 300,
-                        child: FlatButton(
-                            child: Text(""),
-                            onPressed: () {
-                              showScratch(context, outInfo.x, outInfo.y);
-                            }),
-                      )
-                    ],
+                        Center(
+                            child:
+                                outInfo.x.length == 0 ? Text("") : ArcWidget()),
+                      ],
+                    ),
                   ),
                   SizedBox(width: 20),
                   Column(
@@ -416,9 +448,9 @@ class _ArcPainter extends CustomPainter {
         ..drawRect(
             re[i],
             Paint()
-              ..color = Colors.redAccent
+              ..color = outInfo.color_name[i]
               ..style = PaintingStyle.stroke
-              ..strokeWidth = 3);
+              ..strokeWidth = outInfo.size_dot[i]);
     }
   }
 }

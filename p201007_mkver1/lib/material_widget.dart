@@ -1,9 +1,15 @@
 import 'dart:io';
-import 'in.dart';
+import 'dataset.dart';
 import 'package:flutter/material.dart';
-import 'out.dart';
+import 'dart:async';
 
-TableRow taskCar(context, carname, carnumber) {
+FutureOr syncGG(dynamic value) {
+  setState(() {});
+}
+
+///이거 되게 하면 될듯한데
+
+TableRow taskCar(context, carname, carnumber, index) {
   return TableRow(
     children: [
       Text(
@@ -17,7 +23,7 @@ TableRow taskCar(context, carname, carnumber) {
       FlatButton(
         color: Colors.black12,
         onPressed: () {
-          taskDone(context);
+          taskDone(context, index).then(syncGG);
         },
         child: Container(
           child: Icon(Icons.done),
@@ -28,7 +34,7 @@ TableRow taskCar(context, carname, carnumber) {
   );
 }
 
-TableRow taskCarWithP(context, carname, carnumber, fixList) {
+TableRow taskCarWithP(context, carname, carnumber, fixList, index) {
   return TableRow(
     decoration: BoxDecoration(
       color: Colors.red,
@@ -55,7 +61,7 @@ TableRow taskCarWithP(context, carname, carnumber, fixList) {
       FlatButton(
         color: Colors.black12,
         onPressed: () {
-          taskDone(context);
+          taskDone(context, index);
         },
         child: Container(
           child: Icon(Icons.done),
@@ -66,7 +72,7 @@ TableRow taskCarWithP(context, carname, carnumber, fixList) {
   );
 }
 
-Future taskDone(BuildContext context) {
+Future taskDone(BuildContext context, int index) {
   return showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -77,8 +83,7 @@ Future taskDone(BuildContext context) {
           FlatButton(
             child: Text('YES'),
             onPressed: () {
-              //차 삭제!
-              print('');
+              Data.carList.removeAt(index);
               Navigator.of(context).pop();
             },
           ),
@@ -119,19 +124,18 @@ List makeRow(context, carList) {
   rows.add(defaultRow());
   for (int i = 0; i < carList.length; i++) {
     if (carList[i][2] == true) {
-      rows.add(taskCar(context, carList[i][0], carList[i][1]));
+      rows.add(taskCar(context, carList[i][0], carList[i][1], i));
     } else {
       rows.add(taskCarWithP(
-          context, carList[i][0], carList[i][1], carList[i][3].toString()));
+          context, carList[i][0], carList[i][1], carList[i][3].toString(), i));
     }
   }
   return rows;
   //get from api
 }
 
-Table makeTable(context, carList) {
+makeTable(context, carList) {
   return Table(
-    //textDirection: TextDirection.rtl,
     columnWidths: {
       // 0: FlexColumnWidth(1),
       // 1: FlexColumnWidth(1),
@@ -174,7 +178,9 @@ TableRow defaultRow() {
         style: TextStyle(fontSize: 30),
       ),
       Text(
-        "",
+        "Check",
+        textAlign: TextAlign.center,
+        style: TextStyle(fontWeight: FontWeight.bold),
       ),
     ],
   );
@@ -251,35 +257,35 @@ List<Container> scratchList(
   return result;
 }
 
-Future showScratch(BuildContext context, List<double> x, List<double> y) {
-  return showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return StatefulBuilder(
-        builder: (context, StateSetter setState) {
-          return AlertDialog(
-            title: Text(
-              "손상 목록",
-              textAlign: TextAlign.center,
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: scratchList(x, y, context),
-            ),
-            actions: [
-              FlatButton(
-                child: Text('Close'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    },
-  );
-}
+// Future showScratch(BuildContext context, List<double> x, List<double> y) {
+//   return showDialog(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return StatefulBuilder(
+//         builder: (context, StateSetter setState) {
+//           return AlertDialog(
+//             title: Text(
+//               "손상 목록",
+//               textAlign: TextAlign.center,
+//             ),
+//             content: Column(
+//               mainAxisSize: MainAxisSize.min,
+//               children: scratchList(x, y, context),
+//             ),
+//             actions: [
+//               FlatButton(
+//                 child: Text('Close'),
+//                 onPressed: () {
+//                   Navigator.of(context).pop();
+//                 },
+//               ),
+//             ],
+//           );
+//         },
+//       );
+//     },
+//   );
+// }
 
 Future inPic(
     BuildContext context, car_num, image1, image2, image3, image4, index) {

@@ -1,75 +1,63 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:p201007_mkver1/in.dart';
-import 'main.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
-import 'out.dart';
 import 'package:image_size_getter/image_size_getter.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'dataset.dart';
 
 // 사용자가 주어진 카메라를 사용하여 사진을 찍을 수 있는 화면
 class Camera4O extends StatefulWidget {
   final CameraDescription camera = Cam.cam;
-
-  // const Camera4({
-  //   Key key,
-  //   @required this.camera,
-  // }) : super(key: key);
-
   @override
   _Camera4OState createState() => _Camera4OState();
 }
 
 class _Camera4OState extends State<Camera4O> {
+  FutureOr syncGG(dynamic value) {
+    setState(() {});
+  }
+
   String errorMsg = '';
   String url1 = "http://ai.nextlab.co.kr:9066/detect_car";
   String url2 = "http://ai.nextlab.co.kr:9066/predict_carplate";
   String url3 = "http://ai.nextlab.co.kr:9066/predict_defect";
-  StreamController<Map<String, dynamic>> streamController =
-      StreamController(); // 데이터를 받아들이는 스트림.
   String car_num = '';
   double prob = 0;
-
+  //차량인식, 번호판인식, 손상인식 하기위해 서버로 보내는 부분.
+  //response, response2, response3에 결과값 저장됨.
+  //그리고 위 결과값들을 Map<String, dynamic> result == {"first" : , "second" : , "third" :} 에 담아서 리턴함
   Future<Map> detect_car(String img64) async {
+    //서버로 보내는 형식에 맞게 바꿔주는 중
     Map<String, String> param_dict = {"base64_image": img64};
     Map<String, String> headers = {"Content-type": "application/json"};
     final msg = jsonEncode(param_dict);
-    print("BEFORE HTTP!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    // http.Client _client = http.Client(); // http 클라이언트 사용
-
-    // await _client
-    // .get(url1)
-    // .then((res) => res.body)
-    // .then(json.decode);
-
+    //서버로 요청 보냄
     http.Response response = await http.post(url1, headers: headers, body: msg);
-    print("number1CARLOCATE!!!!!!!!!!!!!!!!!!!!!!!!!");
-    // print("RESPONESE" + response.body);
-
+    //응답 받은거 저장
     final first = jsonDecode(response.body);
     print(first);
+    //response에 box라는 key값이 있다면(제대로 응답이 왔다면)
     if (first.containsKey("box")) {
       final car_box = first['box'];
       //carplate
       bool front_or_back = false;
       var second;
+      //그리고 제대로 응답이 왔을 때, 차량의 위치가 front나 back일 경우 번호판 인식하는 부분
       if (first['direction'] == 'front' || first['direction'] == 'back') {
+        //서버로 요청 보냄
         http.Response response2 =
             await http.post(url2, headers: headers, body: msg);
         second = jsonDecode(response2.body);
-        //String carplate_text = second['text'];
-        //double carplate_prob = second['prob'];
-        print("number1CARPLATE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        print(second);
         front_or_back = true;
       }
       String direction = first['direction'];
       double threshold = 0.7;
+      //이제 마지막으로 손상인식 하기전 형식 맞춰줌
       Map<String, dynamic> last_param_dict = {
         "base64_image": img64,
         "direction": direction,
@@ -77,12 +65,14 @@ class _Camera4OState extends State<Camera4O> {
         "threshold": threshold,
       };
       final last_msg = jsonEncode(last_param_dict);
+      //손상인식 서버로 보냄
       http.Response response3 =
           await http.post(url3, headers: headers, body: last_msg);
       final third = jsonDecode(response3.body);
       print("number1DEFECT!!!!!!!!!!!!!!!!!!!!!!!!!!");
       print(third);
       Map<String, dynamic> result;
+      //front또는 back일 때는 번호판(second)가 있으니 key값이 first, second, third이고, 아니면 번호판 없으니 first, third만 있음.
       if (front_or_back) {
         result = {"first": first, "second": second, "third": third};
       } else {
@@ -90,8 +80,8 @@ class _Camera4OState extends State<Camera4O> {
       }
       return result;
     } else {
-      // 차 인식 안됐음. 아예 안하기. 그리고 알려주기. 몇번째 사진이 인식이 안됐는지.
-      print("인식 안됐음!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      //차량인식을 못했을 때 여기로 옴
+      print("Detection Failed");
     }
   }
 
@@ -112,8 +102,6 @@ class _Camera4OState extends State<Camera4O> {
       ResolutionPreset.veryHigh,
     );
     // 다음으로 controller를 초기화합니다. 초기화 메서드는 Future를 반환합니다.
-    // CameraValue(previewSize: Size(720, 720));
-//위에꺼 안먹힘
     _initializeControllerFuture = _controller.initialize();
   }
 
@@ -126,6 +114,7 @@ class _Camera4OState extends State<Camera4O> {
 
   @override
   Widget build(BuildContext context) {
+    //사진 4장찍기 전까지 휴대폰 뒤로가기 버튼 안눌리게 하는부분
     return WillPopScope(
       onWillPop: () {
         setState(
@@ -149,26 +138,25 @@ class _Camera4OState extends State<Camera4O> {
                   textAlign: TextAlign.center,
                 ),
                 Container(
-                  width: 400,
-                  height: 700,
+                  width: MediaQuery.of(context).size.width / 1.1,
+                  height: MediaQuery.of(context).size.width / 1.1 * 16 / 9,
                   child: FutureBuilder<void>(
                     future: _initializeControllerFuture,
                     builder: (context, snapshot) {
                       // final size = MediaQuery.of(context).size;
                       // final deviceRatio = size.width / size.height;
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        // Future가 완료되면, 프리뷰를 보여줍니다.
-                        return CameraPreview(
-                          _controller,
-                        );
-                      } else {
-                        // 그렇지 않다면, 진행 표시기를 보여줍니다.
-                        return Center(child: CircularProgressIndicator());
-                      }
+                      return snapshot.connectionState != ConnectionState.done
+                          ? Center(child: CircularProgressIndicator())
+                          : CameraData.whereIsOut == 0
+                              ? CameraPreview(
+                                  _controller,
+                                )
+                              : Center(child: CircularProgressIndicator());
                     },
                   ),
                 ),
                 SizedBox(height: 20),
+                //에러메세지 나오게 하는 부분인데 잘 안됨
                 errorMsg == '' ? Text(errorMsg) : Text(errorMsg)
               ],
             ),
@@ -176,9 +164,7 @@ class _Camera4OState extends State<Camera4O> {
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.camera_alt),
-          // onPressed 콜백을 제공합니다.
           onPressed: () async {
-            //사진 찍혔을 때!!!!!!!!!! 여기서 api요청 보내야됨......
             try {
               if (Frame.frame == 0) {
                 errorMsg = "전면 처리중 입니다...";
@@ -192,28 +178,33 @@ class _Camera4OState extends State<Camera4O> {
               if (Frame.frame == 3) {
                 errorMsg = "좌측면 처리중 입니다...";
               }
+              CameraData.whereIsOut = 1;
+
+              setState(() {});
               // 카메라 초기화가 완료됐는지 확인합니다.
               if (Frame.frame == 0) {
                 await _initializeControllerFuture;
               }
-
-              // path 패키지를 사용하여 이미지가 저장될 경로를 지정합니다.
+              //사진이 저장 될 path설정
               final path = join(
-                // 본 예제에서는 임시 디렉토리에 이미지를 저장합니다. `path_provider`
-                // 플러그인을 사용하여 임시 디렉토리를 찾으세요.
                 (await getTemporaryDirectory()).path,
                 '${DateTime.now()}.png',
               );
-
-              // 사진 촬영을 시도하고 저장되는 경로를 로그로 남깁니다.
+              //path에 사진 저장
               await _controller.takePicture(path);
+              //bytes에 찍은 사진 불러옴
               final bytes = File(path).readAsBytesSync();
               size = ImageSizeGetter.getSize(MemoryInput(bytes));
+              //img64에 이미지->base64변환해서 담아줌
               String img64 = base64Encode(bytes);
-
+              //이 밑엔 전후좌우 찍는 과정들..
+              //지금은 동기방식(지금 찍은 사진 처리가 끝나야 다음사진을 찍을 수 있음)이여서 되게 느린데 비동기 방식(먼저 사진 4개 다 짝고
+              //응답이 오는 순서대로 처리하는 방식) 으로 추후에 바꿔야 할듯함..
               if (Frame.frame == 0) {
                 outInfo.x.removeRange(0, outInfo.x.length);
                 outInfo.y.removeRange(0, outInfo.y.length);
+                outInfo.size_dot.removeRange(0, outInfo.size_dot.length);
+                outInfo.color_name.removeRange(0, outInfo.color_name.length);
                 outInfo.r1 = await detect_car(img64);
                 // result1 = await detect_car(img64);
                 if (outInfo.r1.containsKey('second')) {
@@ -237,6 +228,8 @@ class _Camera4OState extends State<Camera4O> {
                             15 /
                             32 +
                         37.5);
+                    outInfo.color_name.add(Colors.red);
+                    outInfo.size_dot.add(3);
                   }
                 }
                 outInfo.t1 = outInfo.r1['third']['display'].length.toString() +
@@ -266,6 +259,8 @@ class _Camera4OState extends State<Camera4O> {
                             15 /
                             32 +
                         37.5);
+                    outInfo.color_name.add(Colors.red);
+                    outInfo.size_dot.add(3);
                   }
                 }
                 outInfo.t2 = outInfo.r2['third']['display'].length.toString() +
@@ -295,6 +290,8 @@ class _Camera4OState extends State<Camera4O> {
                             15 /
                             32 +
                         37.5);
+                    outInfo.color_name.add(Colors.red);
+                    outInfo.size_dot.add(3);
                   }
                 }
                 outInfo.t3 = outInfo.r3['third']['display'].length.toString() +
@@ -324,6 +321,8 @@ class _Camera4OState extends State<Camera4O> {
                             15 /
                             32 +
                         37.5);
+                    outInfo.color_name.add(Colors.red);
+                    outInfo.size_dot.add(3);
                   }
                 }
                 outInfo.t4 = outInfo.r4['third']['display'].length.toString() +
@@ -332,21 +331,21 @@ class _Camera4OState extends State<Camera4O> {
 
                 outInfo.car_number = car_num; //제일 prob높은 car_num 넘겨줌
               }
-
-              // print("path " + path);
+              //전후좌우 판단하기 위한 변수
               Frame.frame = Frame.frame + 1;
               int num = Frame.frame;
               String file_name = 'pic' + '$num';
+              CameraData.whereIsOut = 0;
+              setState(() {});
+              //입고 또는 출고에서 왔는지 판단하는 변수
               if (Frame.in_or_out == 'in') {
                 In_Pic.Set(file_name, path);
               } else {
                 Out_Pic.Set(file_name, path);
               }
 
-              // In_Pic.Set(file_name, File(path));
-              //사진 셋팅
-              //4번 찍으면 화면 돌아가게 함.
               if (Frame.frame != 4) {
+                //이제 4장 다 찍으면
               } else {
                 Frame.frame = 0;
                 Navigator.pop(context);
@@ -355,35 +354,30 @@ class _Camera4OState extends State<Camera4O> {
               // 만약 에러가 발생하면, 콘솔에 에러 로그를 남깁니다.
               List<String> errorList = ['전면', '오른쪽 측면', '후면', '왼쪽 측면'];
               flutterToast(errorList[Frame.frame] + "사진을 다시 찍어주세요.");
-
+              CameraData.whereIsOut = 0;
               errorMsg = errorList[Frame.frame] + " 사진을 다시 찍어주세요";
 
               print("ERROR!!!!!!!!!!!!!!!!!!!!!!!ERROR");
               print(e);
             }
-            setState(() {
-              if (Frame.frame == 1) {
-                order = '오른쪽 측면을 찍어주세요';
-              }
-              if (Frame.frame == 2) {
-                order = '후면을 찍어주세요';
-              }
-              if (Frame.frame == 3) {
-                order = '왼쪽 측면을 찍어주세요';
-              }
-            });
+            setState(
+              () {
+                if (Frame.frame == 1) {
+                  order = '오른쪽 측면을 찍어주세요';
+                }
+                if (Frame.frame == 2) {
+                  order = '후면을 찍어주세요';
+                }
+                if (Frame.frame == 3) {
+                  order = '왼쪽 측면을 찍어주세요';
+                }
+              },
+            );
           },
         ),
       ),
     );
   }
-}
-
-class CameraData {
-  static String path1 = '';
-  static String path2 = '';
-  static String path3 = '';
-  static String path4 = '';
 }
 
 // 사용자가 촬영한 사진을 보여주는 위젯
