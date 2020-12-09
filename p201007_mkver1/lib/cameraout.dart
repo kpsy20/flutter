@@ -350,24 +350,6 @@ class _Camera4OState extends State<Camera4O> {
               } else {
                 Frame.frame = 0;
                 Navigator.pop(context);
-
-                //잘 안돼!
-                Navigator.pop(context);
-                if (Frame.in_or_out == 'in') {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => In(),
-                    ),
-                  );
-                } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => Out(),
-                    ),
-                  );
-                }
               }
             } catch (e) {
               // 만약 에러가 발생하면, 콘솔에 에러 로그를 남깁니다.

@@ -3,8 +3,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'mainpage.dart';
 
-// void main() => runApp(MyApp());
 Future<void> main() async {
+  //카메라 찾는부분, 정확히 어떤 기능을 수행하는지는 모름..
   WidgetsFlutterBinding.ensureInitialized();
   final cameras = await availableCameras();
   final firstCamera = cameras.first;
@@ -30,6 +30,7 @@ class MK extends StatefulWidget {
 }
 
 class _MKState extends State<MK> {
+  //회사코드, id, password받는 controller
   TextEditingController controller = TextEditingController();
   TextEditingController controller2 = TextEditingController();
   TextEditingController controller3 = TextEditingController();
@@ -38,10 +39,10 @@ class _MKState extends State<MK> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.teal[50],
       body: SafeArea(
         child: Builder(
           builder: (context) {
+            //GestureDetector -> id나 password입력하다가 화면 다른부분 누르면 입력창 내려가게 함.
             return GestureDetector(
               onTap: () {
                 FocusScope.of(context).unfocus();
@@ -119,6 +120,7 @@ class _MKState extends State<MK> {
                       ),
                     ),
                     Row(
+                      //로그인 유지 checkbox인데 아직 기능은 따로 없고 보여주기만..
                       children: [
                         Checkbox(
                           value: val,
@@ -133,13 +135,13 @@ class _MKState extends State<MK> {
                         Text("로그인 유지"),
                       ],
                     ),
+                    //Login 하면 이제 다음 화면인 mainpage로 넘어감.
                     ButtonTheme(
                       minWidth: 350,
                       height: 50,
                       child: RaisedButton(
                         color: Colors.teal,
-                        child: Icon(Icons.assignment,
-                            color: Colors.white, size: 35),
+                        child: Icon(Icons.style, color: Colors.white, size: 35),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18),
                         ),

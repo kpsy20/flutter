@@ -210,9 +210,8 @@ Future scratchPic(BuildContext context) {
             title: Text(
               "손상여부확인",
               textAlign: TextAlign.center,
-
             ),
-            content: , 
+            // content: ,
             actions: [
               FlatButton(
                 child: Text('Close'),

@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'main.dart';
 import 'package:flutter/material.dart';
-import "camera.dart";
 import "search_car.dart";
 import 'material_widget.dart';
 import 'dart:async';
@@ -83,7 +82,7 @@ class _OutState extends State<Out> {
                           MaterialPageRoute(
                             builder: (BuildContext context) => Camera4O(),
                           ),
-                        );
+                        ).then(syncGG);
                       },
                     ),
                   ),
