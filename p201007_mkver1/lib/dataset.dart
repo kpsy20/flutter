@@ -136,4 +136,5 @@ class Data {
     ['K5', '33허 3333', false, "램프 교체"],
     ['AUDI', '43허 3123', true, ""],
   ];
+  static Map<dynamic, dynamic> tasks;
 }

@@ -3,9 +3,9 @@ import 'dataset.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-FutureOr syncGG(dynamic value) {
-  setState(() {});
-}
+// FutureOr syncGG(dynamic value) {
+//   setState(() {});
+// }
 
 ///이거 되게 하면 될듯한데
 
@@ -23,7 +23,7 @@ TableRow taskCar(context, carname, carnumber, index) {
       FlatButton(
         color: Colors.black12,
         onPressed: () {
-          taskDone(context, index).then(syncGG);
+          taskDone(context, index); //.then(syncGG);
         },
         child: Container(
           child: Icon(Icons.done),

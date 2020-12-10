@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'mainpage.dart';
 import 'dataset.dart';
+import 'package:http/http.dart' as http;
+import 'mainpage.dart';
 
 Future<void> main() async {
   //카메라 찾는부분, 정확히 어떤 기능을 수행하는지는 모름..
@@ -36,7 +38,7 @@ class _MKState extends State<MK> {
   TextEditingController controller = TextEditingController();
   TextEditingController controller2 = TextEditingController();
   TextEditingController controller3 = TextEditingController();
-
+  String url = 'http://ai.nextlab.co.kr:8080';
   bool val = false;
   @override
   Widget build(BuildContext context) {
@@ -127,8 +129,27 @@ class _MKState extends State<MK> {
                           borderRadius: BorderRadius.circular(18),
                         ),
                         // padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
-                        onPressed: () {
+                        onPressed: () async {
                           MemberData.id = controller.text;
+                          Map<String, dynamic> param = {};
+                          param["companyid"] = int.parse(controller3.text);
+                          param["memberid"] = controller.text.toString();
+                          param["password"] = controller2.text.toString();
+
+                          Map<dynamic, dynamic> paramw = {
+                            "companyid": 0,
+                            "memberid": "nextlab",
+                            "password": "nextlab1",
+                          };
+                          // print(jsonEncode(param));
+                          final msg = jsonEncode(param);
+                          Map<String, String> headers = {
+                            "Content-type": "application/json"
+                          };
+
+                          http.Response res = await http.post(url + "/login",
+                              headers: headers, body: msg);
+                          Data.tasks = (jsonDecode(res.body));
                           Navigator.push(
                             context,
                             MaterialPageRoute(

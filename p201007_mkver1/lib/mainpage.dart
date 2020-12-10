@@ -100,6 +100,7 @@ class _MainPageState extends State<MainPage> {
                   ),
                   // padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
                   onPressed: () {
+                    // print(Data.tasks);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
