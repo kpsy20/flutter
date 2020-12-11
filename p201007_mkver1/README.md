@@ -1,16 +1,5 @@
-# p201007_mkver1
+이전 사진 보기는 바로 전 것만 볼 수 있게.
+그래서 카메라로 찍었을 때 이전거 있으면 볼 수 있게. 수기입력했을때는 필요 없음.
+그리고 이전사진에는 노란색, 파란색 점들만 있기 때문에 점 신경 X. 빨간 점만 만질 수 있게 하면 됨.
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+그리고 json 형태로 정리할 필요가 있음.
