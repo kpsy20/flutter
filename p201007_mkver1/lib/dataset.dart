@@ -27,7 +27,7 @@ class In_Pic {
     }
   }
 
-  static void Get(name) {
+  static String Get(name) {
     if (name == 'pic1') {
       return pic1;
     } else if (name == 'pic2') {
@@ -58,7 +58,7 @@ class Out_Pic {
     }
   }
 
-  static void Get(name) {
+  static String Get(name) {
     if (name == 'pic1') {
       return pic1;
     } else if (name == 'pic2') {
@@ -103,6 +103,9 @@ class inInfo {
   static List<Color> color_name = [];
   static List<double> size_dot = [];
   static int index;
+
+  static List<dynamic> car_where = [];
+  static List<Rect> forPic = [];
 }
 
 class outInfo {

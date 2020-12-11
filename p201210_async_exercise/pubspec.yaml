@@ -1,4 +1,4 @@
-name: p201007_mkver1
+name: p201210_async_exercise
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -26,19 +26,21 @@ dependencies:
 
     # The following adds the Cupertino Icons font to your application.
     # Use with the CupertinoIcons class for iOS style icons.
-    cupertino_icons: ^1.0.0
+    cupertino_icons: ^0.1.3
     camera:
     path_provider:
-    path:
-    fluttertoast:
-    firebase_auth:
+    http:
+    # path:
+    # fluttertoast:
+    # firebase_auth:
     provider:
-    shared_preferences:
-    logger:
-    rflutter_alert:
-    image_picker:
-    image_size_getter:
-    percent_indicator:
+    flutter_absolute_path:
+    # shared_preferences:
+    # logger:
+    # rflutter_alert:
+    # image_picker:
+    # image_size_getter:
+
 dev_dependencies:
     flutter_test:
         sdk: flutter

@@ -43,6 +43,7 @@ class _Camera4State extends State<Camera4> {
     print(first);
     //response에 box라는 key값이 있다면(제대로 응답이 왔다면)
     if (first.containsKey("box")) {
+      // img64.size
       final car_box = first['box'];
       //carplate
       bool front_or_back = false;
@@ -90,7 +91,6 @@ class _Camera4State extends State<Camera4> {
   String order = '전면을 찍어주세요';
 
   Size size;
-  var result1, result2, result3, result4;
   @override
   void initState() {
     super.initState();
@@ -138,8 +138,8 @@ class _Camera4State extends State<Camera4> {
                   textAlign: TextAlign.center,
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width / 1.1,
-                  height: MediaQuery.of(context).size.width / 1.1 * 16 / 9,
+                  width: MediaQuery.of(context).size.width / 1.2,
+                  height: MediaQuery.of(context).size.width / 1.2 * 16 / 9,
                   child: FutureBuilder<void>(
                     future: _initializeControllerFuture,
                     builder: (context, snapshot) {
@@ -155,9 +155,97 @@ class _Camera4State extends State<Camera4> {
                     },
                   ),
                 ),
-                SizedBox(height: 20),
-                //에러메세지 나오게 하는 부분인데 잘 안됨
-                errorMsg == '' ? Text(errorMsg) : Text(errorMsg)
+                // SizedBox(height: 20),
+                errorMsg == '' ? Text(errorMsg) : Text(errorMsg),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Stack(
+                      children: [
+                        Container(
+                          child: In_Pic.pic1 == null
+                              ? Text('')
+                              : Image.file(
+                                  File(In_Pic.pic1),
+                                  width: 80,
+                                  height: 80,
+                                ),
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black, width: 1),
+                          ),
+                        ),
+                        Center(
+                            child:
+                                In_Pic.pic1 == null ? Text("") : ArcWidget()),
+                      ],
+                    ),
+                    Stack(
+                      children: [
+                        Container(
+                          child: In_Pic.pic2 == null
+                              ? Text('')
+                              : Image.file(
+                                  File(In_Pic.pic2),
+                                  width: 80,
+                                  height: 80,
+                                ),
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black, width: 1),
+                          ),
+                        ),
+                        Center(
+                            child:
+                                In_Pic.pic2 == null ? Text("") : ArcWidget2()),
+                      ],
+                    ),
+                    Stack(
+                      children: [
+                        Container(
+                          child: In_Pic.pic3 == null
+                              ? Text('')
+                              : Image.file(
+                                  File(In_Pic.pic3),
+                                  width: 80,
+                                  height: 80,
+                                ),
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black, width: 1),
+                          ),
+                        ),
+                        Center(
+                            child:
+                                In_Pic.pic3 == null ? Text("") : ArcWidget3()),
+                      ],
+                    ),
+                    Stack(
+                      children: [
+                        Container(
+                          child: In_Pic.pic4 == null
+                              ? Text('')
+                              : Image.file(
+                                  File(In_Pic.pic4),
+                                  width: 80,
+                                  height: 80,
+                                ),
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black, width: 1),
+                          ),
+                        ),
+                        Center(
+                            child:
+                                In_Pic.pic4 == null ? Text("") : ArcWidget4()),
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -195,6 +283,7 @@ class _Camera4State extends State<Camera4> {
               //bytes에 찍은 사진 불러옴
               final bytes = File(path).readAsBytesSync();
               size = ImageSizeGetter.getSize(MemoryInput(bytes));
+              print("size" + size.toString());
               //img64에 이미지->base64변환해서 담아줌
               String img64 = base64Encode(bytes);
               //이 밑엔 전후좌우 찍는 과정들..
@@ -205,7 +294,21 @@ class _Camera4State extends State<Camera4> {
                 inInfo.y.removeRange(0, inInfo.y.length);
                 inInfo.size_dot.removeRange(0, inInfo.size_dot.length);
                 inInfo.color_name.removeRange(0, inInfo.color_name.length);
-                inInfo.r1 = await detect_car(img64);
+                final result1 = await detect_car(img64);
+                inInfo.r1 = result1;
+                print(result1['first']['box']);
+                final newSize = sizeControl(size, result1['first']['box']);
+
+                inInfo.car_where.add(newSize);
+                inInfo.forPic.add(
+                  new Rect.fromLTWH(
+                    (inInfo.car_where[0]['x']).toDouble(),
+                    (inInfo.car_where[0]['y']).toDouble(),
+                    (inInfo.car_where[0]['w']).toDouble(),
+                    (inInfo.car_where[0]['h']).toDouble(),
+                  ),
+                );
+
                 // result1 = await detect_car(img64);
                 if (inInfo.r1.containsKey('second')) {
                   if (inInfo.r1['second'].length != 0) {
@@ -233,7 +336,18 @@ class _Camera4State extends State<Camera4> {
                 errorMsg = '';
               }
               if (Frame.frame == 1) {
-                inInfo.r2 = await detect_car(img64);
+                final result2 = await detect_car(img64);
+                inInfo.r2 = result2;
+                final newSize = sizeControl(size, result2['first']['box']);
+                inInfo.car_where.add(newSize);
+                inInfo.forPic.add(
+                  new Rect.fromLTWH(
+                    (inInfo.car_where[1]['x']).toDouble(),
+                    (inInfo.car_where[1]['y']).toDouble(),
+                    (inInfo.car_where[1]['w']).toDouble(),
+                    (inInfo.car_where[1]['h']).toDouble(),
+                  ),
+                );
                 if (inInfo.r2.containsKey('second')) {
                   if (inInfo.r2['second'].length != 0) {
                     if (inInfo.r2['second']['prob'] > prob) {
@@ -260,7 +374,18 @@ class _Camera4State extends State<Camera4> {
                 errorMsg = '';
               }
               if (Frame.frame == 2) {
-                inInfo.r3 = await detect_car(img64);
+                final result3 = await detect_car(img64);
+                inInfo.r3 = result3;
+                final newSize = sizeControl(size, result3['first']['box']);
+                inInfo.car_where.add(newSize);
+                inInfo.forPic.add(
+                  new Rect.fromLTWH(
+                    (inInfo.car_where[2]['x']).toDouble(),
+                    (inInfo.car_where[2]['y']).toDouble(),
+                    (inInfo.car_where[2]['w']).toDouble(),
+                    (inInfo.car_where[2]['h']).toDouble(),
+                  ),
+                );
                 if (inInfo.r3.containsKey('second')) {
                   if (inInfo.r3['second'].length != 0) {
                     if (inInfo.r3['second']['prob'] > prob) {
@@ -287,7 +412,18 @@ class _Camera4State extends State<Camera4> {
                 errorMsg = '';
               }
               if (Frame.frame == 3) {
-                inInfo.r4 = await detect_car(img64);
+                final result4 = await detect_car(img64);
+                inInfo.r4 = result4;
+                final newSize = sizeControl(size, result4['first']['box']);
+                inInfo.car_where.add(newSize);
+                inInfo.forPic.add(
+                  new Rect.fromLTWH(
+                    (inInfo.car_where[3]['x']).toDouble(),
+                    (inInfo.car_where[3]['y']).toDouble(),
+                    (inInfo.car_where[3]['w']).toDouble(),
+                    (inInfo.car_where[3]['h']).toDouble(),
+                  ),
+                );
                 if (inInfo.r4.containsKey('second')) {
                   if (inInfo.r4['second'].length != 0) {
                     if (inInfo.r4['second']['prob'] > prob) {
@@ -383,6 +519,26 @@ class DisplayPictureScreen extends StatelessWidget {
   }
 }
 
+Map<dynamic, dynamic> sizeControl(Size wh, Map box) {
+  double nboxx, nboxy, nboxw, nboxh;
+  if (wh.width > wh.height) {
+    double mul = 80 / wh.width;
+    double nh = mul * wh.height;
+    nboxx = box['x'] * mul;
+    nboxy = box['y'] * mul + (80 - nh) / 2;
+    nboxw = box['w'] * mul;
+    nboxh = box['h'] * mul;
+  } else {
+    double mul = 80 / wh.height;
+    double nw = mul * wh.width;
+    nboxx = box['x'] * mul + (80 - nw) / 2;
+    nboxy = box['y'] * mul;
+    nboxw = box['w'] * mul;
+    nboxh = box['h'] * mul;
+  }
+  return {"x": nboxx, "y": nboxy, "w": nboxw, "h": nboxh};
+}
+
 void flutterToast(String msgg) {
   Fluttertoast.showToast(
     msg: msgg,
@@ -392,4 +548,144 @@ void flutterToast(String msgg) {
     textColor: Colors.white,
     toastLength: Toast.LENGTH_SHORT,
   );
+}
+
+class _ArcPainter extends CustomPainter {
+  _ArcPainter();
+
+  @override
+  bool shouldRepaint(_ArcPainter oldDelegate) {
+    return true;
+  }
+
+  @override
+  void paint(Canvas canvas, size) {
+    if (inInfo.forPic.length != 0) {
+      canvas
+        ..drawRect(
+            inInfo.forPic[0],
+            Paint()
+              ..color = Colors.red
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 2);
+    }
+  }
+}
+
+class ArcWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new SizedBox(
+      width: 80.0,
+      height: 80.0,
+      child: new CustomPaint(
+        painter: new _ArcPainter(),
+      ),
+    );
+  }
+}
+
+class ArcWidget2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new SizedBox(
+      width: 80.0,
+      height: 80.0,
+      child: new CustomPaint(
+        painter: new _ArcPainter2(),
+      ),
+    );
+  }
+}
+
+class _ArcPainter2 extends CustomPainter {
+  _ArcPainter2();
+
+  @override
+  bool shouldRepaint(_ArcPainter2 oldDelegate) {
+    return true;
+  }
+
+  @override
+  void paint(Canvas canvas, size) {
+    if (inInfo.forPic.length > 1) {
+      canvas
+        ..drawRect(
+            inInfo.forPic[1],
+            Paint()
+              ..color = Colors.red
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 2);
+    }
+  }
+}
+
+class ArcWidget3 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new SizedBox(
+      width: 80.0,
+      height: 80.0,
+      child: new CustomPaint(
+        painter: new _ArcPainter3(),
+      ),
+    );
+  }
+}
+
+class _ArcPainter3 extends CustomPainter {
+  _ArcPainter3();
+
+  @override
+  bool shouldRepaint(_ArcPainter3 oldDelegate) {
+    return true;
+  }
+
+  @override
+  void paint(Canvas canvas, size) {
+    if (inInfo.forPic.length > 2) {
+      canvas
+        ..drawRect(
+            inInfo.forPic[2],
+            Paint()
+              ..color = Colors.red
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 2);
+    }
+  }
+}
+
+class ArcWidget4 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new SizedBox(
+      width: 80.0,
+      height: 80.0,
+      child: new CustomPaint(
+        painter: new _ArcPainter4(),
+      ),
+    );
+  }
+}
+
+class _ArcPainter4 extends CustomPainter {
+  _ArcPainter4();
+
+  @override
+  bool shouldRepaint(_ArcPainter4 oldDelegate) {
+    return true;
+  }
+
+  @override
+  void paint(Canvas canvas, size) {
+    if (inInfo.forPic.length > 3) {
+      canvas
+        ..drawRect(
+            inInfo.forPic[3],
+            Paint()
+              ..color = Colors.red
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 2);
+    }
+  }
 }

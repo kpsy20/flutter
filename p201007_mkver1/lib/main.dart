@@ -146,10 +146,10 @@ class _MKState extends State<MK> {
                           Map<String, String> headers = {
                             "Content-type": "application/json"
                           };
-
-                          http.Response res = await http.post(url + "/login",
-                              headers: headers, body: msg);
-                          Data.tasks = (jsonDecode(res.body));
+//로그인 부분
+                          // http.Response res = await http.post(url + "/login",
+                          //     headers: headers, body: msg);
+                          // Data.tasks = (jsonDecode(res.body));
                           Navigator.push(
                             context,
                             MaterialPageRoute(

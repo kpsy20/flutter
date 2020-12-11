@@ -18,6 +18,12 @@ class _InState extends State<In> {
     setState(() {});
   }
 
+  FutureOr sizeFix(dynamic value) {
+    setState(() {
+      inInfo.size_dot[value] = 3;
+    });
+  }
+
   double _cdx = 0;
   double _cdy = 0;
 
@@ -62,6 +68,13 @@ class _InState extends State<In> {
                       onPressed: () {
                         //GO CAMERA
                         Frame.in_or_out = 'in';
+                        inInfo.forPic.removeRange(0, inInfo.forPic.length);
+                        inInfo.car_where
+                            .removeRange(0, inInfo.car_where.length);
+                        In_Pic.Set('pic1', null);
+                        In_Pic.Set('pic2', null);
+                        In_Pic.Set('pic3', null);
+                        In_Pic.Set('pic4', null);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -133,29 +146,21 @@ class _InState extends State<In> {
                               }
                             }
                             if (shortest < 50) {
-                              if (inInfo.size_dot[shortest_index] == 3) {
-                                for (int i = 0; i < inInfo.x.length; i++) {
-                                  inInfo.size_dot[i] = 3;
-                                }
-                                inInfo.size_dot[shortest_index] = 20;
-                              } else if (inInfo.size_dot[shortest_index] ==
-                                  20) {
-                                print(shortest_index.toString() +
-                                    '번째 손상을 선택했습니다.');
-                                print(shortest.toString() + "거리차");
-                                //여기에 이제 처리하는 과정..
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        Scratch(),
-                                  ),
-                                ).then(syncGG);
-                              }
+                              inInfo.size_dot[shortest_index] = 20;
+                              print(
+                                  shortest_index.toString() + '번째 손상을 선택했습니다.');
+                              print(shortest.toString() + "거리차");
+                              //여기에 이제 처리하는 과정..
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) => Scratch(),
+                                ),
+                              ).then(syncGG);
                             } else {
                               print("다시 터치");
                               for (int i = 0; i < inInfo.x.length; i++) {
-                                inInfo.color_name[i] = Colors.red;
+                                // inInfo.color_name[i] = Colors.red;
                                 inInfo.size_dot[i] = 3;
                               }
                             }
