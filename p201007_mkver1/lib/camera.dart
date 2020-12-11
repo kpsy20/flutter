@@ -26,8 +26,23 @@ class _Camera4State extends State<Camera4> {
   String url1 = "http://ai.nextlab.co.kr:9066/detect_car";
   String url2 = "http://ai.nextlab.co.kr:9066/predict_carplate";
   String url3 = "http://ai.nextlab.co.kr:9066/predict_defect";
+  String uploadUrl = "http://ai.nextlab.co.kr:8080/image_upload";
   String car_num = '';
   double prob = 0;
+  Future<String> uploadImage(filename, url) async {
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+
+    // 1. 파라미터 지정정
+    request.fields['operation_id'] = "1";
+    request.fields['image_type'] = "left";
+
+    // 2. 파일 지정
+    request.files.add(await http.MultipartFile.fromPath('file', filename));
+
+    var res = await request.send();
+    return res.reasonPhrase;
+  }
+
   //차량인식, 번호판인식, 손상인식 하기위해 서버로 보내는 부분.
   //response, response2, response3에 결과값 저장됨.
   //그리고 위 결과값들을 Map<String, dynamic> result == {"first" : , "second" : , "third" :} 에 담아서 리턴함
@@ -99,7 +114,7 @@ class _Camera4State extends State<Camera4> {
       // 이용 가능한 카메라 목록에서 특정 카메라를 가져옵니다.
       widget.camera,
       // 적용할 해상도를 지정합니다.
-      ResolutionPreset.veryHigh,
+      ResolutionPreset.ultraHigh,
     );
     // 다음으로 controller를 초기화합니다. 초기화 메서드는 Future를 반환합니다.
     _initializeControllerFuture = _controller.initialize();
@@ -451,6 +466,9 @@ class _Camera4State extends State<Camera4> {
 
                 inInfo.car_number = car_num; //제일 prob높은 car_num 넘겨줌
               }
+              //여기 왔다는건 차량 인식이 됐다는 소리
+              var res = await uploadImage(path, uploadUrl);
+              print(res);
               //전후좌우 판단하기 위한 변수
               Frame.frame = Frame.frame + 1;
               int num = Frame.frame;

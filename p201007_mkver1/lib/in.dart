@@ -14,13 +14,17 @@ class In extends StatefulWidget {
 }
 
 class _InState extends State<In> {
-  FutureOr syncGG(dynamic value) {
+  FutureOr syncGG(dynamic value) async {
     setState(() {});
+    await Future.delayed(Duration(milliseconds: 300));
+    sizeFix();
   }
 
-  FutureOr sizeFix(dynamic value) {
+  FutureOr sizeFix() {
     setState(() {
-      inInfo.size_dot[value] = 3;
+      for (int i = 0; i < inInfo.size_dot.length; i++) {
+        inInfo.size_dot[i] = 3;
+      }
     });
   }
 
@@ -151,6 +155,7 @@ class _InState extends State<In> {
                                   shortest_index.toString() + '번째 손상을 선택했습니다.');
                               print(shortest.toString() + "거리차");
                               //여기에 이제 처리하는 과정..
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -467,6 +472,7 @@ class _ArcPainter extends CustomPainter {
               ..style = PaintingStyle.stroke
               ..strokeWidth = inInfo.size_dot[i]);
     }
+    print(re.length.toString());
   }
 }
 
