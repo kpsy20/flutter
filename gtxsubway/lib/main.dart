@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:firebase_admob/firebase_admob.dart';
+import 'adManager.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,6 +23,29 @@ class MyApp extends StatelessWidget {
 class GTX extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    FirebaseAdMob.instance.initialize(appId: AdManager.appId);
+
+    MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+      keywords: <String>['subway', 'gtx', '지하철', '재개발', '재건축'],
+      contentUrl: 'https://flutter.io',
+      childDirected: false,
+      testDevices: <String>[], // Android emulators are considered test devices
+    );
+
+    BannerAd myBanner = BannerAd(
+      adUnitId: AdManager.bannerAdUnitId,
+      size: AdSize.smartBanner,
+      targetingInfo: targetingInfo,
+      listener: (MobileAdEvent event) {
+        print("BannerAd event is $event");
+      },
+    );
+
+    myBanner
+      ..load()
+      ..show(
+        anchorType: AnchorType.bottom,
+      );
     return Scaffold(
       appBar: AppBar(
         title: Text("GTX 노선도"),
@@ -85,7 +110,7 @@ class GTX extends StatelessWidget {
                 "\n(C노선) 덕정~수원 74.2km, 4조 3,088억 원\n경원선 덕정~도봉산(17.7km), 과천선 인덕원~금정(6.1km)경부선 금정~수원(14.0km) 기존선 활용",
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 300),
             ],
           ),
         ),
